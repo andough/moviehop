@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -15,68 +16,68 @@ import java.sql.Statement;
 //
 @WebServlet(name = "LoginServlet", urlPatterns = "/api/login")
 public class LoginServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
+    
+ // Create a dataSource which registered in web.xml
+    @Resource(name = "jdbc/moviedb")
+    private DataSource dataSource;
+    
 
-	@Resource(name = "jdbc/moviedb")
-	private DataSource dataSource;
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        PrintWriter out = response.getWriter();
+        /* This example only allows username/password to be test/test
+        /  in the real project, you should talk to the database to verify username/password
+        */
+        try 
+       {
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		String email = "";
-		String mypassword = "";
+            // Create a new connection to database
+            Connection dbCon = dataSource.getConnection();
 
-		/*
-		 * This example only allows username/password to be test/test / in the real
-		 * project, you should talk to the database to verify username/password
-		 */
-		try {
-			// Get a connection from dataSource
-			Connection dbcon = dataSource.getConnection();
+            // Declare a new statement
+            Statement statement = dbCon.createStatement();
+            String query = String.format("SELECT customers.email, customers.password from customers where customers.email = '%s' and customers.password = '%s';", username, password);
+            ResultSet rs = statement.executeQuery(query);
+            if (rs.next()) {
+                // Login success:
 
-			// Declare our statement
-			Statement statement = dbcon.createStatement();
+                // set this user into the session
+                request.getSession().setAttribute("user", new User(username));
 
-			String query = "SELECT customers.email, customers.password" + "FROM CUSTOMERS" + "WHERE customers.email = '"
-					+ username + "' and customers.password = '" + password + "';";
+                JsonObject responseJsonObject = new JsonObject();
+                responseJsonObject.addProperty("status", "success");
+                responseJsonObject.addProperty("message", "success");
 
-			// Perform the query
-			ResultSet rs = statement.executeQuery(query);
-			while (rs.next()) {
-	                email = rs.getString("email");
-	                mypassword = rs.getString("password");
-			}
-			if (username.equals("anteater") && password.equals("123456")) {
-				// Login success:
+                response.getWriter().write(responseJsonObject.toString());
+            } else {
+                // Login fail
+                JsonObject responseJsonObject = new JsonObject();
+                responseJsonObject.addProperty("status", "fail");
+                if (!username.equals("anteater")) {
+                    responseJsonObject.addProperty("message", "user " + username + " doesn't exist");
+                } else if (!password.equals("123456")) {
+                    responseJsonObject.addProperty("message", "incorrect password");
+                }
+                response.getWriter().write(responseJsonObject.toString());
+            }
+            rs.close();
+            statement.close();
+            dbCon.close();
 
-				// set this user into the session
-				request.getSession().setAttribute("user", new User(username));
+        	} 
+        	catch (Exception ex) 
+        	{
 
-				JsonObject responseJsonObject = new JsonObject();
-				responseJsonObject.addProperty("status", "success");
-				responseJsonObject.addProperty("message", "success");
-
-				response.getWriter().write(responseJsonObject.toString());
-			} else {
-				// Login fail
-				JsonObject responseJsonObject = new JsonObject();
-				responseJsonObject.addProperty("status", "fail");
-				if (!username.equals("anteater")) {
-					responseJsonObject.addProperty("message", "user " + username + " doesn't exist");
-				} else if (!password.equals("123456")) {
-					responseJsonObject.addProperty("message", "incorrect password");
-				}
-				response.getWriter().write(responseJsonObject.toString());
-			}
-			  rs.close();
-	           statement.close();
-	           dbcon.close();
-
-		} catch (Exception e) {
-		}
-	}
+            // Output Error Massage to html
+            out.println(String.format("<html><head><title>MovieDB: Error</title></head>\n<body><p>SQL error in doGet: %s</p></body></html>", ex.getMessage()));
+            return;
+        	}
+ 
+    }
+    
 }
