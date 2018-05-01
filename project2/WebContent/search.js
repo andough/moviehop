@@ -55,6 +55,11 @@ function handleSearchResult(resultData) {
             	"title": "Genres",
             	"data": "genres",
             	"defaultContent": ""
+            },
+            { 
+            	"title": "Rating",
+            	"data": "rating",
+            	"defaultContent": ""
             }
         ]
     });
@@ -104,7 +109,7 @@ jQuery("#searchButton").click(function (e) {
     }
 
     //encode uri for special characters
-    var searchUrl = "api/stars?whereclause=" + encodeURIComponent(searchStr);
+    var searchUrl = "api/search?whereclause=" + encodeURIComponent(searchStr);
 
     // Makes the HTTP GET request and registers on success callback function handleStarResult
     jQuery.ajax({

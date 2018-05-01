@@ -16,8 +16,8 @@ import java.sql.Statement;
 
 
 // Declaring a WebServlet called StarsServlet, which maps to url "/api/stars"
-@WebServlet(name = "StarsServlet", urlPatterns = "/api/stars")
-public class StarsServlet extends HttpServlet {
+@WebServlet(name = "SearchServlet", urlPatterns = "/api/search")
+public class SearchServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     // Create a dataSource which registered in web.xml
@@ -52,18 +52,21 @@ public class StarsServlet extends HttpServlet {
             		"       GROUP_CONCAT(stars.name) AS 'star', \r\n" + 
             		"       GROUP_CONCAT(stars.id) AS 'starid', \r\n" + 
 //            		"        genres_in_movies.genreId,\r\n" + 
-            		"        GROUP_CONCAT(genres.name) AS 'genres' \r\n" + 
+            		"        GROUP_CONCAT( distinct genres.name) AS 'genres', \r\n" + 
+            		"        ratings.rating \r\n" + 
             		"        \r\n" + 
             		"FROM movies\r\n" + 
             		"LEFT OUTER JOIN stars_in_movies ON movies.id = stars_in_movies.movieId\r\n" + 
             		"LEFT OUTER JOIN stars ON stars_in_movies.starId = stars.id\r\n" + 
             		"LEFT OUTER JOIN genres_in_movies ON movies.id = genres_in_movies.movieId\r\n" + 
             		"LEFT OUTER JOIN genres ON genres_in_movies.genreId = genres.id\r\n" +
+            		"LEFT OUTER JOIN ratings ON movies.id = ratings.movieId\r\n" +
             		"WHERE " + whereclause +
             		" GROUP BY \r\n" + 
             				"		movies.title, \r\n" + 
             				"		movies.year, \r\n" + 
             				"		genres.name, \r\n" + 
+            				"		ratings.rating, \r\n" + 
             				"		movies.director;\r\n";
             
             
@@ -80,6 +83,7 @@ public class StarsServlet extends HttpServlet {
                 String director = rs.getString("director");
                 String starid = rs.getString("starid");
                 String genres = rs.getString("genres");
+                String rating = rs.getString("rating");
                 
 
                 // Create a JsonObject based on the data we retrieve from rs
@@ -90,6 +94,7 @@ public class StarsServlet extends HttpServlet {
                 jsonObject.addProperty("director", director);
                 jsonObject.addProperty("starid", starid);
                 jsonObject.addProperty("genres", genres);
+                jsonObject.addProperty("rating", rating);
                 jsonArray.add(jsonObject);
             }
             
