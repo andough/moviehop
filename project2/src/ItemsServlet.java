@@ -24,10 +24,10 @@ public class ItemsServlet extends HttpServlet {
             session.setAttribute("previousItems", previousItems); // Add the newly created ArrayList to session, so that it could be retrieved next time
 
         }
-
         String newItem = request.getParameter("newItem"); // Get parameter that sent by GET request url
         String clear = request.getParameter("clear");
         String removeItem = request.getParameter("removeItem");
+        User username = (User)session.getAttribute("user");
 
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
@@ -42,7 +42,7 @@ public class ItemsServlet extends HttpServlet {
         		"<!-- Latest compiled JavaScript -->\r\n" + 
         		"<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script> \r\n" + 
         		"	<link rel=\"import\" href=\"bootstrap.html\"></head>\n<body bgcolor=\"#FDF5E6\">\n"
-        		+ "<h1>%s <span class=\"glyphicon glyphicon-shopping-cart\"></span></h1>", docType, title, title));
+        		+ "<p><div align=\"right\"> account: "+ username.getUsername() +"</div></p><h1>%s <span class=\"glyphicon glyphicon-shopping-cart\"></span></h1>", docType, title, title));
         // In order to prevent multiple clients, requests from altering previousItems ArrayList at the same time, we lock the ArrayList while updating
         synchronized (previousItems) {
             if (newItem != null) {
@@ -61,10 +61,11 @@ public class ItemsServlet extends HttpServlet {
                 out.println("<i>No items</i>");
             } else {
             	out.println("<table BORDER=\"1\" style=\"width:100%\">");
-            	out.println("<th> title </th> <th> quantity </th> <th> cost </th> <th> remove? </th>");
+            	out.println("<th><center> Title </center></th> <th><center> Cost </center>"
+            			+ "</th> <th> <center> Remove Item </center></th>");
                 for (Object previousItem : previousItems) {
                     out.println("<tr><td>" + previousItem + "</td>");
-                    out.println("<td> 1 </td> <td> 10 </td>");
+                    out.println("<td> 10 </td>");
                     out.println("<td><a href=\"items?removeItem=" + previousItem + 
                     		"\"><input type=\"submit\" value=\"remove\"></a></td></tr>");
                 }
