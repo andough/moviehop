@@ -2,24 +2,36 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.5.1/datatables.min.css" />
+    
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.5.1/datatables.min.js"></script>
     <meta charset="UTF-8">
-    <title>Login to Fablix</title>
+    <center><title>Login to MovieHop</title></center>
 </head>
 <body>
-<h2>Login to Fablix</h2>
+<center><h2>Login to MovieHop</h2></center>
 <!-- Set the method to POST to avoid username/password showing on URL
      Disable the default action because our JS function will handle it. -->
 <form id="login_form" method="post" action="#">
-    <label><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="username">
+    <center><label><b>Email Address</b></label></center>
+    <center><input type="text" placeholder="Enter Email" name="username"></center>
+    <center><label><b>Password</b></label></center>
+    <center><input type="password" placeholder="Enter Password" name="password"></center>
     <br>
-    <label><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="password">
-    <br>
-    <input type="submit" value="Login">
+    <center><input type="submit" class="btn btn-primary" value="Login"></center>
 </form>
 
-<div id="login_error_message"></div>
+<center><div id="login_error_message"></div></center>
 
 <!-- include jQuery-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
