@@ -17,7 +17,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.5.1/datatables.min.js"></script>
     
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Browse</title>
 
 <style>
 .anchor-width a {
@@ -37,7 +37,10 @@
 
 </head>
 <body>
-	<div class="row">
+	<div align = "center"> 
+    	<td><button type="button" class="btn btn-primary btn-lg" onclick="window.location.href='search.html'">search</button></td>
+    </div>
+	<div class="row" align = "center">
            <div class="col-md-12 anchor-width">
 	           <a onclick="handleMovieTitleSearch('a')" href="#">a</a>
 	           <a onclick="handleMovieTitleSearch('b')" href="#">b</a>
@@ -68,7 +71,7 @@
            </div>
      </div>
      
-     <div class="row">
+     <div class="row" align = "center">
            <div class="col-md-12 anchor-width">
 	           <a onclick="handleMovieTitleSearch('0')" href="#">0</a>
 	           <a onclick="handleMovieTitleSearch('1')" href="#">1</a>
@@ -83,7 +86,7 @@
            </div>     
      </div>
      
-     <div class="row">
+     <div class="row" align = "center">
             <div class="col-md-12 anchor-width-small">
 	           <a onclick="handleGenreSearch('Action')" href="#">Action</a>
 	           <a onclick="handleGenreSearch('Adult')" href="#">Adult</a>
@@ -95,13 +98,13 @@
 	           <a onclick="handleGenreSearch('Documentary')" href="#">Documentary</a>
 	           <a onclick="handleGenreSearch('Drama')" href="#">Drama</a>
 	           <a onclick="handleGenreSearch('Family')" href="#">Family</a>
-	           <a onclick="handleGenreSearch('Fantasy')" href="#">Fantasy</a>
-	           <a onclick="handleGenreSearch('History')" href="#">History</a>
-	           <a onclick="handleGenreSearch('Horror')" href="#">Horor</a>
            </div>
      </div>
-     <div class="row">
+     <div class="row" align = "center">
             <div class="col-md-12 anchor-width-small">
+            <a onclick="handleGenreSearch('Fantasy')" href="#">Fantasy</a>
+	           <a onclick="handleGenreSearch('History')" href="#">History</a>
+	           <a onclick="handleGenreSearch('Horror')" href="#">Horror</a>
 	           <a onclick="handleGenreSearch('Music')" href="#">Music</a>
 	           <a onclick="handleGenreSearch('Musical')" href="#">Musical</a>
 	           <a onclick="handleGenreSearch('Mystery')" href="#">Mystery</a>

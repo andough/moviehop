@@ -54,7 +54,7 @@ function handleResult(resultData) {
 	$.each(resultData, function(index, value){
 		var arrStars = value.star.split(',');
 		var arrStarIds = value.starid.split(',');
-		//var arrGenres = value.genres.spilt(',');
+		var arrGenres = value.genres.split(',');
 		
 		value.movielink = "<a target='_blank' href='single-movie.html?id=" + value.movieid + "'>" + value.title + "</a>";		
 		var step;
@@ -63,9 +63,10 @@ function handleResult(resultData) {
 		for (step = 0; step < arrStars.length; step++){
 			value.starlink += "<a href='single-star.html?id=" + arrStarIds[step] + "'>" + arrStars[step] + "</a><br>";
 		} 
-//		for (step1 = 0; step1 < arrGenres.length; step1++) {
-//			value.genrelink ="<a target='_blank' href='browse.html?genres=" + arrGenres[step1] + "'>" + arrGenres[step1] + "</a>";
-		//}// target='_blank'
+		for (step1 = 0; step1 < arrGenres.length; step1++) {
+			value.genrelink += "<a href='browse.html?genres=" + arrGenres[step1] + "'>" + arrGenres[step1] + "</a><br>";
+		}
+		value.genrelink.split("undefined");
 		
 		resultData2.push(value);
 	});
@@ -81,8 +82,8 @@ function handleResult(resultData) {
         rowHTML += "<th>" + resultData[i]["title"] + "</th>";
         rowHTML += "<th>" + resultData[i]["year"] + "</th>";
         rowHTML += "<th>" + resultData[i]["director"] + "</th>";
-        rowHTML += "<th>" + resultData2[i]["starlink"] +  '</a>' + "</th>";
-        rowHTML += "<th>" + resultData[i]["genres"] + "</th>";
+        rowHTML += "<th>" + resultData2[i]["starlink"] + "</th>"; // +  '</a>'
+        rowHTML += "<th>" + resultData2[i]["genrelink"] + "</th>";
         rowHTML += "</tr>";
 
         // Append the row created to the table body, which will refresh the page
