@@ -49,7 +49,7 @@ public class SingleMovieServlet extends HttpServlet {
 					"            				movies.director,   \r\n" + 
 					"							#stars_in_movies.starId,  \r\n" + 
 					"							GROUP_CONCAT( distinct stars.name) AS 'star',   \r\n" + 
-					"							GROUP_CONCAT(stars.id) AS 'starid',\r\n" + 
+					"							GROUP_CONCAT( distinct stars.id) AS 'starid',\r\n" + 
 					"							movies.id AS 'movieid',\r\n" + 
 					"            		        #genres_in_movies.genreId,  \r\n" + 
 					"            		        GROUP_CONCAT( distinct genres.name) AS 'genres'\r\n" + 

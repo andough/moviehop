@@ -62,7 +62,7 @@ function handleResult(resultData) {
         rowHTML += "<th>" + resultData[i]["title"] + "</th>";
         rowHTML += "<th>" + resultData[i]["year"] + "</th>";
         rowHTML += "<th>" + resultData[i]["director"] + "</th>";
-        rowHTML += "<th>" + resultData[i]["star"] + "</th>";
+        rowHTML += "<th>" +  '<a href="single-star.html?id=' + resultData[i]['starid'] + '">'  +resultData[i]["star"] +  '</a>' + "</th>";
         rowHTML += "<th>" + resultData[i]["genres"] + "</th>";
         rowHTML += "</tr>";
 
