@@ -48,9 +48,10 @@ public class SearchServlet extends HttpServlet {
             		"		movies.title, \r\n" + 
             		"		movies.year, \r\n" + 
             		"		movies.director, \r\n" + 
+            		"		movies.id AS 'movieid', \r\n" + 
 //            		"       stars_in_movies.starId,\r\n" + 
-            		"       GROUP_CONCAT(stars.name) AS 'star', \r\n" + 
-            		"       GROUP_CONCAT(stars.id) AS 'starid', \r\n" + 
+            		"       GROUP_CONCAT( distinct stars.name) AS 'star', \r\n" + 
+            		"       GROUP_CONCAT( distinct stars.id) AS 'starid', \r\n" + 
 //            		"        genres_in_movies.genreId,\r\n" + 
             		"        GROUP_CONCAT( distinct genres.name) AS 'genres', \r\n" + 
             		"        ratings.rating \r\n" + 
@@ -63,11 +64,11 @@ public class SearchServlet extends HttpServlet {
             		"LEFT OUTER JOIN ratings ON movies.id = ratings.movieId\r\n" +
             		"WHERE " + whereclause +
             		" GROUP BY \r\n" + 
-            				"		movies.title, \r\n" + 
-            				"		movies.year, \r\n" + 
-            				"		genres.name, \r\n" + 
-            				"		ratings.rating, \r\n" + 
-            				"		movies.director;\r\n";
+            				"		movies.title; \r\n";
+//            				"		movies.year, \r\n" + 
+//            				"		genres.name, \r\n" + 
+//            				"		ratings.rating, \r\n" + 
+//            				"		movies.director;\r\n";
             
             
             // Perform the query
@@ -84,6 +85,7 @@ public class SearchServlet extends HttpServlet {
                 String starid = rs.getString("starid");
                 String genres = rs.getString("genres");
                 String rating = rs.getString("rating");
+                String movieid = rs.getString("movieid");
                 
 
                 // Create a JsonObject based on the data we retrieve from rs
@@ -95,6 +97,7 @@ public class SearchServlet extends HttpServlet {
                 jsonObject.addProperty("starid", starid);
                 jsonObject.addProperty("genres", genres);
                 jsonObject.addProperty("rating", rating);
+                jsonObject.addProperty("movieid", movieid);
                 jsonArray.add(jsonObject);
             }
             

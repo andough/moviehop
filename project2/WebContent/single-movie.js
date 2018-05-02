@@ -50,6 +50,25 @@ function handleResult(resultData) {
 //        "<p>Date Of Birth: " + resultData[0]["star_dob"] + "</p>");
 
     console.log("handleResult: populating movie table from resultData");
+    var resultData2 = [];
+	$.each(resultData, function(index, value){
+		var arrStars = value.star.split(',');
+		var arrStarIds = value.starid.split(',');
+		//var arrGenres = value.genres.spilt(',');
+		
+		value.movielink = "<a target='_blank' href='single-movie.html?id=" + value.movieid + "'>" + value.title + "</a>";		
+		var step;
+		var step1;
+		value.starlink = "";
+		for (step = 0; step < arrStars.length; step++){
+			value.starlink += "<a href='single-star.html?id=" + arrStarIds[step] + "'>" + arrStars[step] + "</a><br>";
+		} 
+//		for (step1 = 0; step1 < arrGenres.length; step1++) {
+//			value.genrelink ="<a target='_blank' href='browse.html?genres=" + arrGenres[step1] + "'>" + arrGenres[step1] + "</a>";
+		//}// target='_blank'
+		
+		resultData2.push(value);
+	});
 
     // Populate the star table
     // Find the empty table body by id "movie_table_body"
@@ -62,7 +81,7 @@ function handleResult(resultData) {
         rowHTML += "<th>" + resultData[i]["title"] + "</th>";
         rowHTML += "<th>" + resultData[i]["year"] + "</th>";
         rowHTML += "<th>" + resultData[i]["director"] + "</th>";
-        rowHTML += "<th>" +  '<a href="single-star.html?id=' + resultData[i]['starid'] + '">'  +resultData[i]["star"] +  '</a>' + "</th>";
+        rowHTML += "<th>" + resultData2[i]["starlink"] +  '</a>' + "</th>";
         rowHTML += "<th>" + resultData[i]["genres"] + "</th>";
         rowHTML += "</tr>";
 

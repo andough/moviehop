@@ -4,17 +4,19 @@
  */
 function handleSearchResult(resultData) {
 	debugger;
-	alert(resultData.length);
+	//alert(resultData.length);
 	
 	var resultData2 = [];
 	$.each(resultData, function(index, value){
 		var arrStars = value.star.split(',');
 		var arrStarIds = value.starid.split(',');
 		
+		value.movielink = "<a href='single-movie.html?id=" + value.movieid + "'>" + value.title + "</a>";
+		
 		var step;
 		value.starlink = "";
 		for (step = 0; step < arrStars.length; step++){
-			value.starlink += "<a target='_blank' href='single-star.html?id=" + arrStarIds[step] + "'>" + arrStars[step] + "</a><br>";
+			value.starlink += "<a href='single-star.html?id=" + arrStarIds[step] + "'>" + arrStars[step] + "</a><br>";
 		}
 		
 		resultData2.push(value);
@@ -33,7 +35,7 @@ function handleSearchResult(resultData) {
 //            },
             { 
             	"title": "Title",
-            	"data": "title",
+            	"data": "movielink",
             	"defaultContent": ""
             },
             { 
@@ -59,12 +61,146 @@ function handleSearchResult(resultData) {
             { 
             	"title": "Rating",
             	"data": "rating",
-            	"defaultContent": ""
+            	"defaultContent": "0"
             }
         ]
     });
     
-    alert('end of call');
+    //alert('end of call');
+}
+function handleGenreSearch(value){
+	//alert(value);
+	var searchStr = " genres.name like '%" + value + "%'";
+	var searchUrl = "api/search?whereclause=" + encodeURIComponent(searchStr);
+	
+	jQuery.ajax({
+        dataType: "json", // Setting return data type
+        method: "GET", // Setting request method
+        url: searchUrl, // Setting request url, which is mapped by StarsServlet in Stars.java
+        success: function (resultData) { // Setting callback function to handle data returned successfully by the StarsServlet
+            handleSearchResult(resultData);
+        }, 
+        error: function (resultData) {
+            debugger;
+            console.log("there was an error");
+        },
+        complete: function (resultData) {
+            debugger;
+            console.log("End Of Ajax call!");
+            //A function to be called when the request finishes 
+            // (after success and error callbacks are executed). 
+        }
+    });
+    
+    $('#patricktable').DataTable({
+    	destroy: true,
+        "data": resultData2,
+        "columns": [
+//            { 
+//            	"title": "Star Link",
+//            	"data": "starlink",
+//            	"defaultContent": ""
+//            },
+            { 
+            	"title": "Title",
+            	"data": "movielink",
+            	"defaultContent": ""
+            },
+            { 
+            	"title": "Year",
+            	"data": "year",
+            	"defaultContent": ""
+            },
+            { 
+            	"title": "Star",
+            	"data": "starlink",
+            	"defaultContent": ""
+            },
+            { 
+            	"title": "Director",
+            	"data": "director",
+            	"defaultContent": ""
+            },
+            { 
+            	"title": "Genres",
+            	"data": "genres",
+            	"defaultContent": ""
+            },
+            { 
+            	"title": "Rating",
+            	"data": "rating",
+            	"defaultContent": "0"
+            }
+        ]
+    });
+}
+
+function handleMovieTitleSearch(value){
+	alert(value);
+	var searchStr = " title like '" + value + "%'";
+	var searchUrl = "api/search?whereclause=" + encodeURIComponent(searchStr);
+	
+	
+    jQuery.ajax({
+        dataType: "json", // Setting return data type
+        method: "GET", // Setting request method
+        url: searchUrl, // Setting request url, which is mapped by StarsServlet in Stars.java
+        success: function (resultData) { // Setting callback function to handle data returned successfully by the StarsServlet
+            handleSearchResult(resultData);
+        }, 
+        error: function (resultData) {
+            debugger;
+            console.log("there was an error");
+        },
+        complete: function (resultData) {
+            debugger;
+            console.log("End Of Ajax call!");
+            //A function to be called when the request finishes 
+            // (after success and error callbacks are executed). 
+        }
+    });
+    
+    $('#patricktable').DataTable({
+    	destroy: true,
+        "data": resultData2,
+        "columns": [
+//            { 
+//            	"title": "Star Link",
+//            	"data": "starlink",
+//            	"defaultContent": ""
+//            },
+            { 
+            	"title": "Title",
+            	"data": "movielink",
+            	"defaultContent": ""
+            },
+            { 
+            	"title": "Year",
+            	"data": "year",
+            	"defaultContent": ""
+            },
+            { 
+            	"title": "Star",
+            	"data": "starlink",
+            	"defaultContent": ""
+            },
+            { 
+            	"title": "Director",
+            	"data": "director",
+            	"defaultContent": ""
+            },
+            { 
+            	"title": "Genres",
+            	"data": "genres",
+            	"defaultContent": ""
+            },
+            { 
+            	"title": "Rating",
+            	"data": "rating",
+            	"defaultContent": "0"
+            }
+        ]
+    });
 }
 
 jQuery("#searchButton").click(function (e) {
