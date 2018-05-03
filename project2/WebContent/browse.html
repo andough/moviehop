@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.5.1/datatables.min.css" />
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.5.1/datatables.min.js"></script>
+    
+<meta charset="ISO-8859-1">
+<title>Browse</title>
+
+<style>
+.anchor-width a {
+	display:inline-block;
+	margin:5px;
+	padding:5px;
+	font-size: medium;
+}
+.anchor-width-small a {
+	display:inline-block;
+	margin:5px;
+	padding:5px;
+	font-size: small;
+}
+</style>
+  <style>
+		table.dataTable thead {
+			color: blueviolet;
+			background-color:lightgray;
+		}
+		
+        div.mydiv-md {
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        div.mydiv-md span {
+            min-width: 110px;
+            text-align: left;
+        }
+    </style>
+
+
+</head>
+<body>
+	<div align = "right"> 
+    	<td><button type="button" style="background-color: transparent;  border-color: transparent; class="btn btn-primary btn-lg" onclick="window.location.href='search.html'">Search</button></td>
+    	<button type="button" onclick="window.location.href='items'"
+		style="background-color: transparent;  border-color: transparent;">
+		shopping cart <span class="glyphicon glyphicon-shopping-cart"></span></button>
+    </div>
+	<h3 class = " anchor-width"><center>Search by Title</center></h3>
+	<div class="row" align = "center">
+           <div class="col-md-12 anchor-width">
+	           <a onclick="handleMovieTitleSearch('a')" href="#">a</a>
+	           <a onclick="handleMovieTitleSearch('b')" href="#">b</a>
+	           <a onclick="handleMovieTitleSearch('c')" href="#">c</a>
+	           <a onclick="handleMovieTitleSearch('d')" href="#">d</a>
+	           <a onclick="handleMovieTitleSearch('e')" href="#">e</a>
+	           <a onclick="handleMovieTitleSearch('f')" href="#">f</a>
+	           <a onclick="handleMovieTitleSearch('g')" href="#">g</a>
+	           <a onclick="handleMovieTitleSearch('h')" href="#">h</a>
+	           <a onclick="handleMovieTitleSearch('i')" href="#">i</a>
+	           <a onclick="handleMovieTitleSearch('j')" href="#">j</a>
+	           <a onclick="handleMovieTitleSearch('k')" href="#">k</a>
+	           <a onclick="handleMovieTitleSearch('l')" href="#">l</a>
+	           <a onclick="handleMovieTitleSearch('m')" href="#">m</a>
+	           <a onclick="handleMovieTitleSearch('n')" href="#">n</a>
+	           <a onclick="handleMovieTitleSearch('o')" href="#">o</a>
+	           <a onclick="handleMovieTitleSearch('p')" href="#">p</a>
+	           <a onclick="handleMovieTitleSearch('q')" href="#">q</a>
+	           <a onclick="handleMovieTitleSearch('r')" href="#">r</a>
+	           <a onclick="handleMovieTitleSearch('s')" href="#">s</a>
+	           <a onclick="handleMovieTitleSearch('t')" href="#">t</a>
+	           <a onclick="handleMovieTitleSearch('u')" href="#">u</a>
+	           <a onclick="handleMovieTitleSearch('v')" href="#">v</a>
+	           <a onclick="handleMovieTitleSearch('w')" href="#">w</a>
+	           <a onclick="handleMovieTitleSearch('x')" href="#">x</a>
+	           <a onclick="handleMovieTitleSearch('y')" href="#">y</a>
+	           <a onclick="handleMovieTitleSearch('z')" href="#">z</a>
+           </div>
+     </div>
+     
+     <div class="row" align = "center">
+           <div class="col-md-12 anchor-width">
+	           <a onclick="handleMovieTitleSearch('0')" href="#">0</a>
+	           <a onclick="handleMovieTitleSearch('1')" href="#">1</a>
+	           <a onclick="handleMovieTitleSearch('2')" href="#">2</a>
+	           <a onclick="handleMovieTitleSearch('3')" href="#">3</a>
+	           <a onclick="handleMovieTitleSearch('4')" href="#">4</a>
+	           <a onclick="handleMovieTitleSearch('5')" href="#">5</a>
+	           <a onclick="handleMovieTitleSearch('6')" href="#">6</a>
+	           <a onclick="handleMovieTitleSearch('7')" href="#">7</a>
+	           <a onclick="handleMovieTitleSearch('8')" href="#">8</a>
+	           <a onclick="handleMovieTitleSearch('9')" href="#">9</a>
+           </div>     
+     </div>
+     <h3 class = "anchor-width"><center>Search by Genre</center></h3>
+     <div class="row" align = "center">
+            <div class="col-md-12 anchor-width-small">
+	           <a onclick="handleGenreSearch('Action')" href="#">Action</a>
+	           <a onclick="handleGenreSearch('Adult')" href="#">Adult</a>
+	           <a onclick="handleGenreSearch('Adventure')" href="#">Adventure</a>
+	           <a onclick="handleGenreSearch('Animation')" href="#">Animation</a>
+	           <a onclick="handleGenreSearch('Biography')" href="#">Biography</a>
+	           <a onclick="handleGenreSearch('Comedy')" href="#">Comedy</a>
+	           <a onclick="handleGenreSearch('Crime')" href="#">Crime</a>
+	           <a onclick="handleGenreSearch('Documentary')" href="#">Documentary</a>
+	           <a onclick="handleGenreSearch('Drama')" href="#">Drama</a>
+	           <a onclick="handleGenreSearch('Family')" href="#">Family</a>
+           </div>
+     </div>
+     <div class="row" align = "center">
+            <div class="col-md-12 anchor-width-small">
+            <a onclick="handleGenreSearch('Fantasy')" href="#">Fantasy</a>
+	           <a onclick="handleGenreSearch('History')" href="#">History</a>
+	           <a onclick="handleGenreSearch('Horror')" href="#">Horror</a>
+	           <a onclick="handleGenreSearch('Music')" href="#">Music</a>
+	           <a onclick="handleGenreSearch('Musical')" href="#">Musical</a>
+	           <a onclick="handleGenreSearch('Mystery')" href="#">Mystery</a>
+	           <a onclick="handleGenreSearch('Reality-TV')" href="#">Reality-TV</a>
+	           <a onclick="handleGenreSearch('Romance')" href="#">Romance</a>
+	           <a onclick="handleGenreSearch('Sci-Fi')" href="#">Sci-Fi</a>
+	           <a onclick="handleGenreSearch('Sport')" href="#">Sport</a>
+	           <a onclick="handleGenreSearch('Thriller')" href="#">Thriller</a>
+	           <a onclick="handleGenreSearch('War')" href="#">War</a>
+	           <a onclick="handleGenreSearch('Western')" href="#">Western</a>
+           </div>
+     </div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<table id="patricktable" class="display" style="width: 100%">
+			</table>
+		</div>
+	</div>
+
+	<script src="search.js"></script>
+	<script language="javascript">
+function urlParam(name){
+	   if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
+	      return decodeURIComponent(name[1]);
+	}
+
+//alert ('browse page started');
+var qstr = urlParam("genres");
+//alert (qstr);
+if (qstr.length > 0)
+{
+	handleGenreSearch(qstr);
+}
+</script>
+</body>
+</html>
