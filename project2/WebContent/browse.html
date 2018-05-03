@@ -24,22 +24,26 @@
 	display:inline-block;
 	margin:5px;
 	padding:5px;
-	font-size: xx-large;
+	font-size: medium;
 }
 .anchor-width-small a {
 	display:inline-block;
 	margin:5px;
 	padding:5px;
-	font-size: large;
+	font-size: small;
 }
 </style>
 
 
 </head>
 <body>
-	<div align = "center"> 
-    	<td><button type="button" class="btn btn-primary btn-lg" onclick="window.location.href='search.html'">search</button></td>
+	<div align = "right"> 
+    	<td><button type="button" style="background-color: transparent;  border-color: transparent; class="btn btn-primary btn-lg" onclick="window.location.href='search.html'">Search</button></td>
+    	<button type="button" onclick="window.location.href='items'"
+		style="background-color: transparent;  border-color: transparent;">
+		shopping cart <span class="glyphicon glyphicon-shopping-cart"></span></button>
     </div>
+	<h3 class = " anchor-width"><center>Search by Title</center></h3>
 	<div class="row" align = "center">
            <div class="col-md-12 anchor-width">
 	           <a onclick="handleMovieTitleSearch('a')" href="#">a</a>
@@ -85,7 +89,7 @@
 	           <a onclick="handleMovieTitleSearch('9')" href="#">9</a>
            </div>     
      </div>
-     
+     <h3 class = "anchor-width"><center>Search by Genre</center></h3>
      <div class="row" align = "center">
             <div class="col-md-12 anchor-width-small">
 	           <a onclick="handleGenreSearch('Action')" href="#">Action</a>
@@ -132,9 +136,9 @@ function urlParam(name){
 	      return decodeURIComponent(name[1]);
 	}
 
-alert ('browse page started');
+//alert ('browse page started');
 var qstr = urlParam("genres");
-alert (qstr);
+//alert (qstr);
 if (qstr.length > 0)
 {
 	handleGenreSearch(qstr);

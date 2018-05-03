@@ -136,7 +136,7 @@ function handleGenreSearch(value){
 }
 
 function handleMovieTitleSearch(value){
-	alert(value);
+	//alert(value);
 	var searchStr = " title like '" + value + "%'";
 	var searchUrl = "api/search?whereclause=" + encodeURIComponent(searchStr);
 	
