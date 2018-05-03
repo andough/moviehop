@@ -60,13 +60,15 @@ function handleResult(resultData) {
 		var step;
 		var step1;
 		value.starlink = "";
-		for (step = 0; step < arrStars.length; step++){
+		for (step = 0; step < arrStars.length; step++)
+		{
 			value.starlink += "<a href='single-star.html?id=" + arrStarIds[step] + "'>" + arrStars[step] + "</a><br>";
-		} 
-		for (step1 = 0; step1 < arrGenres.length; step1++) {
+		}
+		value.genrelink = "";
+		for (step1 = 0; step1 < arrGenres.length; step1++) 
+		{
 			value.genrelink += "<a href='browse.html?genres=" + arrGenres[step1] + "'>" + arrGenres[step1] + "</a><br>";
 		}
-		value.genrelink.split("undefined");
 		
 		resultData2.push(value);
 	});
