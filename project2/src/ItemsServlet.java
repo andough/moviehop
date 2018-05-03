@@ -55,12 +55,27 @@ public class ItemsServlet extends HttpServlet {
         		+ "<p><div align=\"right\"> account: "+ username.getUsername() +"</div></p><h1>%s <span class=\"glyphicon glyphicon-shopping-cart\"></span></h1>", docType, title, title));
         // In order to prevent multiple clients, requests from altering previousItems ArrayList at the same time, we lock the ArrayList while updating
 
+        try {
+            // Create a new connection to database
+            Connection dbCon = dataSource.getConnection();
+
+            // Declare a new statement
+            Statement statement = dbCon.createStatement();
+        
         Integer i = 1;
         synchronized (previousItems) {
+        	
+        	
+        	
             if (newItem != null) {
-				if(previousItems.containsKey(newItem))
-            		i += (Integer)previousItems.get(newItem);
-            	previousItems.put(newItem,i); // Add the new item to the previousItems ArrayList
+            	String query = String.format("SELECT movies.id, movies.title from movies where movies.id = '%s';", newItem);
+                ResultSet rs = statement.executeQuery(query);	
+            	if(rs.next())
+            	{
+            		if(previousItems.containsKey(newItem))
+            			i += (Integer)previousItems.get(newItem);
+            		previousItems.put(newItem,i); // Add the new item to the previousItems ArrayList
+            	}
             }
             
             Integer r = 0;
@@ -73,7 +88,7 @@ public class ItemsServlet extends HttpServlet {
                 // remove the new item from the previousItems ArrayList
             }
             
-            if(removeAll != null)
+            if(removeAll != null && previousItems.containsKey(removeAll))
             	previousItems.remove(removeAll);
 
             // Display the current previousItems ArrayList
@@ -88,14 +103,8 @@ public class ItemsServlet extends HttpServlet {
             			+ "<th><center> Title </center></th> <th><center> count </center></th>"
             			+ "<th> <center> Remove One </center></th>"
             			+ " <th> <center> Remove All </center></th>");
-            	Iterator it = previousItems.entrySet().iterator();
             	
-            	try {
-                // Create a new connection to database
-                Connection dbCon = dataSource.getConnection();
-
-                // Declare a new statement
-                Statement statement = dbCon.createStatement();
+            	Iterator it = previousItems.entrySet().iterator();
             		
             	while (it.hasNext()) {
                 //for (Object previousItem : previousItems) {
@@ -121,9 +130,9 @@ public class ItemsServlet extends HttpServlet {
                 		"</a>");
                 out.println("</table>");
             	}
-            	catch(Exception e) {}
             }
         }
+        catch(Exception e) {}
         //out.println("<input type=\"submit\" value=\"remove\">");
         out.println("</body></html>");
     }
