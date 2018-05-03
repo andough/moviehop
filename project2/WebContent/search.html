@@ -17,6 +17,22 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.5.1/datatables.min.js"></script>
+    <style>
+		table.dataTable thead {
+			color: blueviolet;
+			background-color:lightgray;
+		}
+		
+        div.mydiv-md {
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        div.mydiv-md span {
+            min-width: 110px;
+            text-align: left;
+        }
+    </style>
 
     <script>
 //    		 $(document).ready(function () {
@@ -32,9 +48,8 @@
     </div>
 <body>
     <div class="container-fluid">
-
         <div class="row">
-            <div class="col-md-3">
+            <div class="mydiv-md">
                 <div class="input-group">
                     <span class="input-group-addon">Title:</span>
                     <input type="text" id="movieText" class="form-control" aria-describedby="basic-addon1">
@@ -43,7 +58,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-2">
+            <div class="mydiv-md">
                 <div class="input-group">
                     <span class="input-group-addon">Year:</span>
                     <input type="text" id="yearText" class="form-control" aria-describedby="basic-addon1">
@@ -52,7 +67,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-3">
+            <div class="mydiv-md">
                 <div class="input-group">
                     <span class="input-group-addon">Director:</span>
                     <input type="text" id="directorText" class="form-control" aria-describedby="basic-addon1">
@@ -61,7 +76,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-3">
+            <div class="mydiv-md">
                 <div class="input-group">
                     <span class="input-group-addon">Star's Name:</span>
                     <input type="text" id="starText" class="form-control" aria-describedby="basic-addon1">
@@ -70,7 +85,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-2">
+            <div class="mydiv-md">
                 <div class="btn-group" role="group" aria-label="...">
                     <button type="button" id="clearButton" class="btn btn-default">Clear</button>
                     <button type="button" id="searchButton" class="btn btn-default">Search</button>
