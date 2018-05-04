@@ -66,6 +66,7 @@ public class placedOrder extends HttpServlet{
 			synchronized (previousItems) {
 					Iterator it = previousItems.entrySet().iterator();
 
+					out.println("<p>order details: </p><br>");
 					while (it.hasNext()) {
 						Map.Entry pair = (Map.Entry) it.next();
 						String previousItem = (String) pair.getKey();
@@ -77,18 +78,23 @@ public class placedOrder extends HttpServlet{
 
 					if (rs.next()) {
 						String mystr = rs.getString("movies.id");
-						// out.printf("INSERT INTO sales(customerId,movieId,saleDate)
+						String movietitle = rs.getString("movies.title");
 						// VALUES(%d,'%s','%s');", customerId, rs.getString("movies.id"),s);
 						for (int numItems = 0; numItems < count; numItems++) {
-							out.println("<p>" + customerId + " " + mystr + " " + s + "</p>");
+							//out.println("<p>" + customerId + " " + mystr + " " + s + "</p>");
 							String ins = String.format(
 									"INSERT INTO sales(customerId,movieId,saleDate) VALUES(%d,'%s','%s');", customerId,
 									rs.getString("movies.id"), s);
 							PreparedStatement bc = dbCon.prepareStatement(ins);
-							// bc.setInt(1, customerId);
-							// bc.setString(2, mystr);
-							// bc.setString(3, s);
-							bc.executeUpdate();
+							//int salesid = statement.executeUpdate(ins,Statement.RETURN_GENERATED_KEYS);
+							
+							bc.executeUpdate(ins,Statement.RETURN_GENERATED_KEYS);
+							ResultSet result = bc.getGeneratedKeys();
+							if (result.next())
+							{
+								Long newId = result.getLong(1);
+								out.println("<p> sale ID: " + newId + " movie purchased: " + movietitle + "</p>");
+							}
 						}
 					}
 					}
