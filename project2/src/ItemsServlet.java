@@ -18,6 +18,7 @@ import java.util.*;
 @WebServlet(name = "ItemServlet", urlPatterns = "/items")
 
 public class ItemsServlet extends HttpServlet {
+	private static final long serialVersionUID = 2L;
 	@Resource(name = "jdbc/moviedb")
 	private DataSource dataSource;
 	
@@ -42,16 +43,9 @@ public class ItemsServlet extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         String title = "Shopping Cart";
-        String docType =
-                "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
-        out.println(String.format("%s<html>\n<head><title>%s</title><link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">\r\n" + 
-        		"\r\n" + 
-        		"<!-- jQuery library -->\r\n" + 
-        		"<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\"></script>\r\n" + 
-        		"\r\n" + 
-        		"<!-- Latest compiled JavaScript -->\r\n" + 
-        		"<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script> \r\n" + 
-        		"	</head>\n<body bgcolor=\"#FDF5E6\">\n"
+        String docType = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
+        out.println(String.format("%s<html>\n<head><title>%s</title>" + 
+        		"\r\n"
         		+ "<p><div align=\"right\"> account: "+ username.getUsername() +"</div></p><h1>%s <span class=\"glyphicon glyphicon-shopping-cart\"></span></h1>", docType, title, title));
         // In order to prevent multiple clients, requests from altering previousItems ArrayList at the same time, we lock the ArrayList while updating
 
@@ -62,17 +56,15 @@ public class ItemsServlet extends HttpServlet {
             // Declare a new statement
             Statement statement = dbCon.createStatement();
         
-        Integer i = 1;
-        //synchronized (previousItems) {
-        	
-        	
-        	
+        //Integer i = 1;
+        synchronized (previousItems) {       
+        	 Integer i = 1;
             if (newItem != null) {
             	String query = String.format("SELECT movies.id, movies.title from movies where movies.id = '%s';", newItem);
                 ResultSet rs = statement.executeQuery(query);	
             	if(rs.next())
             	{
-            		if(previousItems.containsKey(newItem))
+            		if(previousItems.containsKey(newItem)) 
             			i += (Integer)previousItems.get(newItem);
             		previousItems.put(newItem,i); // Add the new item to the previousItems ArrayList
             	}
@@ -96,13 +88,30 @@ public class ItemsServlet extends HttpServlet {
             	if(clear.equals("true"))
             		previousItems.clear();
             if (previousItems.size() == 0) {
+            	out.println("<style>\r\n" + 
+            			"body {\r\n" + 
+            			"    background-color: lavender;\r\n" + 
+            			"}\r\n" + 
+            			"\r\n" + 
+            			"</style>");
                 out.println("<i>No items</i>");
+                out.println("<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\"> <script src=\\\"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\\\"></script> <script src=\\\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\\\"></script> ");
             } else {
+            	out.println("<style>\r\n" + 
+            			"body {\r\n" + 
+            			"    background-color: lavender;\r\n" + 
+            			"}\r\n" + 
+            			"\r\n" + 
+            			"</style>");
             	out.println("<table BORDER=\"1\" style=\"width:100%\">");
-            	out.println("<th><center> Title </center></th> <th><center> count </center></th>"
+            	out.println("<th><center> Title </center></th> <th><center> count </center></th>" + "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">\r\n"
+						+ "\r\n" + "<!-- jQuery library -->\r\n"
+						+ "<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\"></script>\r\n"
+						+ "\r\n" + "<!-- Latest compiled JavaScript -->\r\n" 
+						+ "<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script> \r\n"
+						+ "	</head>\n<body bgcolor=\"#FDF5E6\">\n"
             			+ "<th> <center> Remove One </center></th>"
             			+ " <th> <center> Remove All </center></th>");
-            	
             	Iterator it = previousItems.entrySet().iterator();
             		
             	while (it.hasNext()) {
@@ -121,6 +130,7 @@ public class ItemsServlet extends HttpServlet {
                     out.println("<td><a href=\"items?removeAll=" + previousItem + "\">"
                     		+ "<input type=\"submit\" value=\"remove All\"></a></td></tr>");
                     }
+                    rs.close();
                 }
                 out.println("<a href=\"items?clear=true\">\r\n" + 
                 		"	<p> <button type=\"button\" class=\"btn btn-primary\">clear cart</button> </p></a>");
@@ -130,11 +140,16 @@ public class ItemsServlet extends HttpServlet {
                 		"	<p> <button type=\"button\" class=\"btn btn-primary\">Proceed to Check Out</button> </p></a></center></p>");
             	}
             }
-        //}
+        
+        	statement.close();
+        	dbCon.close();
+        }
         catch(Exception e) {
         	out.println(String.format("<html><head><title>MovieDB: Error</title></head>\n<body><p>SQL error in doGet: %s</p></body></html>", e.getMessage()));
         }
-        //out.println("<input type=\"submit\" value=\"remove\">");
+        out.println("<input type=\"submit\" value=\"remove\">");
         out.println("</body></html>");
-    }
+        out.close();
+ }
+    
 }

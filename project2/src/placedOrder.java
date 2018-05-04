@@ -100,10 +100,11 @@ public class placedOrder extends HttpServlet{
 					}
 					
 					previousItems.clear();
-	                out.println("<p><a href=\"index.html\"> return home </a></p>");
 				}
-				
+			statement.close();
+        	dbCon.close();
 			}
+		
 		 catch (Exception e) {
 				out.println(String.format(
 						"<html><head><title>MovieDB: Error</title></head>\n<body><p>SQL error in doGet: %s</p></body></html>",
@@ -111,6 +112,7 @@ public class placedOrder extends HttpServlet{
 		}
 
 		out.println("</body></html>");
+		out.close();
 
 
 	}

@@ -69,6 +69,7 @@ public class confirmation extends HttpServlet{
 						if (rs.next()) {
 							out.println("<tr><td>" + rs.getString("movies.title") + "</td><td>" + count + "</td></tr>");
 						}
+						rs.close();
 					}
 					
 					out.println("</table></div>");
@@ -79,6 +80,8 @@ public class confirmation extends HttpServlet{
 				}
 				
 			}
+			statement.close();
+        	dbCon.close();
 		} catch (Exception e) {
 		}
 

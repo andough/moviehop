@@ -31,6 +31,27 @@ function getParameterByName(target) {
     // Return the decoded parameter value
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
+function addMovieTo(value){
+	var addMovieUrl = "./items?newItem=" + value;
+	var successMsg = "successfully added to cart";
+	
+	jQuery.ajax({
+        dataType: "json", // Setting return data type
+        method: "GET", // Setting request method
+        url: addMovieUrl, // Setting request url, which is mapped by StarsServlet in Stars.java
+        success: function (resultData) { // Setting callback function to handle data returned successfully by the StarsServlet
+        	toastr.success(successMsg);
+        }, 
+        error: function (resultData) {
+        	toastr.success(successMsg);
+        },
+        complete: function (resultData) {
+            console.log("End Of Ajax call!");
+            //A function to be called when the request finishes 
+            // (after success and error callbacks are executed). 
+        }
+    });
+}
 
 /**
  * Handles the data returned by the API, read the jsonObject and populate data into html elements
@@ -60,7 +81,7 @@ function handleResult(resultData) {
         let rowHTML = "";
         rowHTML += "<tr>";
         rowHTML += "<th>" + '<a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">'  + resultData[i]["movie_title"] +  '</a>' + "</th>";
-        rowHTML += "<th>" + "<button type='button' class='btn btn-primary btn-xs' onclick=window.location.href='items?newItem=" + resultData[i]["movie_id"] + "'>" + "Add to Cart</button>" + "</th>";
+        rowHTML += "<th>" + "<button type='button' class='btn btn-primary btn-xs' onclick='addMovieTo(\"" + resultData[i]["movie_id"] + "\");'>" + "Add to Cart</button>" + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_year"] + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_director"] + "</th>";
         rowHTML += "</tr>";
