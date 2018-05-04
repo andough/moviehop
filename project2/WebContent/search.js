@@ -102,48 +102,48 @@ function handleGenreSearch(value){
         }
     });
     
-    $('#patricktable').DataTable({
-    	destroy: true,
-    	"searching": false,
-        "data": resultData,
-        "columns": [
+//    $('#patricktable').DataTable({
+//    	destroy: true,
+//    	"searching": false,
+//        "data": resultData,
+//        "columns": [
 //            { 
 //            	"title": "Star Link",
 //            	"data": "starlink",
 //            	"defaultContent": ""
 //            },
-            { 
-            	"title": "Title",
-            	"data": "movielink",
-            	"defaultContent": ""
-            },
-            { 
-            	"title": "Year",
-            	"data": "year",
-            	"defaultContent": ""
-            },
-            { 
-            	"title": "Star",
-            	"data": "starlink",
-            	"defaultContent": ""
-            },
-            { 
-            	"title": "Director",
-            	"data": "director",
-            	"defaultContent": ""
-            },
-            { 
-            	"title": "Genres",
-            	"data": "genres",
-            	"defaultContent": ""
-            },
-            { 
-            	"title": "Rating",
-            	"data": "rating",
-            	"defaultContent": "0"
-            }
-        ]
-    });
+//            { 
+//            	"title": "Title",
+//            	"data": "movielink",
+//            	"defaultContent": ""
+//            },
+//            { 
+//            	"title": "Year",
+//            	"data": "year",
+//            	"defaultContent": ""
+//            },
+//            { 
+//            	"title": "Star",
+//            	"data": "starlink",
+//            	"defaultContent": ""
+//            },
+//            { 
+//            	"title": "Director",
+//            	"data": "director",
+//            	"defaultContent": ""
+//            },
+//            { 
+//            	"title": "Genres",
+//            	"data": "genres",
+//            	"defaultContent": ""
+//            },
+//            { 
+//            	"title": "Rating",
+//            	"data": "rating",
+//            	"defaultContent": "0"
+//            }
+//        ]
+//    });
 }
 
 function handleMovieTitleSearch(value){
@@ -171,48 +171,48 @@ function handleMovieTitleSearch(value){
         }
     });
     
-    $('#patricktable').DataTable({
-    	destroy: true,
-    	"searching": false,
-        "data": resultData,
-        "columns": [
+//    $('#patricktable').DataTable({
+//    	destroy: true,
+//    	"searching": false,
+//        "data": resultData,
+//        "columns": [
+////            { 
+////            	"title": "Star Link",
+////            	"data": "starlink",
+////            	"defaultContent": ""
+////            },
 //            { 
-//            	"title": "Star Link",
+//            	"title": "Title",
+//            	"data": "movielink",
+//            	"defaultContent": ""
+//            },
+//            { 
+//            	"title": "Year",
+//            	"data": "year",
+//            	"defaultContent": ""
+//            },
+//            { 
+//            	"title": "Star",
 //            	"data": "starlink",
 //            	"defaultContent": ""
 //            },
-            { 
-            	"title": "Title",
-            	"data": "movielink",
-            	"defaultContent": ""
-            },
-            { 
-            	"title": "Year",
-            	"data": "year",
-            	"defaultContent": ""
-            },
-            { 
-            	"title": "Star",
-            	"data": "starlink",
-            	"defaultContent": ""
-            },
-            { 
-            	"title": "Director",
-            	"data": "director",
-            	"defaultContent": ""
-            },
-            { 
-            	"title": "Genres",
-            	"data": "genres",
-            	"defaultContent": ""
-            },
-            { 
-            	"title": "Rating",
-            	"data": "rating",
-            	"defaultContent": "0"
-            }
-        ]
-    });
+//            { 
+//            	"title": "Director",
+//            	"data": "director",
+//            	"defaultContent": ""
+//            },
+//            { 
+//            	"title": "Genres",
+//            	"data": "genres",
+//            	"defaultContent": ""
+//            },
+//            { 
+//            	"title": "Rating",
+//            	"data": "rating",
+//            	"defaultContent": "0"
+//            }
+//        ]
+//    });
 }
 
 jQuery("#searchButton").click(function (e) {
