@@ -82,13 +82,13 @@ public class confirmation extends HttpServlet{
 			}
 			statement.close();
         	dbCon.close();
+        	out.close();
 		} catch (Exception e) {
 		}
 
 		out.println("</body></html>");
 
 	}
-
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		doGet(request, response);

@@ -1,0 +1,28 @@
+For our search.html page query we used the like predicate to query for  %title% , %director%, and %starsname% (All strings that contain the pattern ) 
+However, to query for movie year we used movie = year
+
+For our browse.html we used the like predicate to query for all titles that start with title% 
+
+To search for the genres we used the like predicate to query for %genre%  (All strings that contain the pattern) 
+
+
+Example query: use moviedb;
+SELECT   
+            				movies.title,   
+            				movies.year,   
+            				movies.director,   
+            		        GROUP_CONCAT(stars.name) AS 'star',   
+            		        GROUP_CONCAT(stars.id) AS 'starid',  
+            		        GROUP_CONCAT( distinct genres.name) AS 'genres',
+                            ratings.rating 
+            		          
+            		FROM movies  
+            		LEFT OUTER JOIN stars_in_movies ON movies.id = stars_in_movies.movieId  
+            		LEFT OUTER JOIN stars ON stars_in_movies.starId = stars.id  
+            		LEFT OUTER JOIN genres_in_movies ON movies.id = genres_in_movies.movieId  
+            		LEFT OUTER JOIN genres ON genres_in_movies.genreId = genres.id 
+                    LEFT OUTER JOIN ratings ON movies.id = ratings.movieId
+            		WHERE title like '%Sky%'
+					GROUP BY   
+            						movies.title;
+
