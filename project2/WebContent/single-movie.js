@@ -69,6 +69,7 @@ function handleResult(resultData) {
 		{
 			value.genrelink += "<a href='browse.html?genres=" + arrGenres[step1] + "'>" + arrGenres[step1] + "</a><br>";
 		}
+		value.movietocart = "<button type='button' class='btn btn-primary btn-xs' onclick=window.location.href='items?newItem=" + value.movieid + "'>" + "Add to Cart</button>";
 		
 		resultData2.push(value);
 	});
@@ -82,6 +83,7 @@ function handleResult(resultData) {
         let rowHTML = "";
         rowHTML += "<tr>";
         rowHTML += "<th>" + resultData[i]["title"] + "</th>";
+        rowHTML += "<th>" + resultData[i]["movietocart"] + "</th>";
         rowHTML += "<th>" + resultData[i]["year"] + "</th>";
         rowHTML += "<th>" + resultData[i]["director"] + "</th>";
         rowHTML += "<th>" + resultData2[i]["starlink"] + "</th>"; // +  '</a>'

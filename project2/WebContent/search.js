@@ -11,12 +11,14 @@ function handleSearchResult(resultData) {
 		var arrStars = value.star.split(',');
 		var arrStarIds = value.starid.split(',');
 		
-		value.movielink = "<a href='single-movie.html?id=" + value.movieid + "'>" + value.title + "</a>";
+		value.movielink = "<a href='single-movie.html?id=" + value.movieid + "'>" + value.title + "</a>"; 
+		
+		value.movietocart = "<button type='button' class='btn btn-primary btn-xs' onclick=window.location.href='items?newItem=" + value.movieid + "'>" + "Add to Cart</button>";
 		
 		var step;
 		value.starlink = "";
 		for (step = 0; step < arrStars.length; step++){
-			value.starlink += "<a href='single-star.html?id=" + arrStarIds[step] + "'>" + arrStars[step] + "</a><br>";
+			value.starlink += "<a href='single-star.html?id=" + arrStarIds[step] + "'>" + arrStars[step] + "</a>, ";
 		}
 		
 		resultData2.push(value);
@@ -26,6 +28,7 @@ function handleSearchResult(resultData) {
 	
     $('#patricktable').DataTable({
     	destroy: true,
+    	"searching": false,
         "data": resultData2,
         "columns": [
 //            { 
@@ -36,8 +39,14 @@ function handleSearchResult(resultData) {
             { 
             	"title": "Title",
             	"data": "movielink",
+            	"width": "15%",
             	"defaultContent": ""
             },
+            { 
+            	"title": "Add",
+            	"data": "movietocart",
+            	"defaultContent": ""
+            },            
             { 
             	"title": "Year",
             	"data": "year",
@@ -51,6 +60,7 @@ function handleSearchResult(resultData) {
             { 
             	"title": "Director",
             	"data": "director",
+            	"width": "15%",
             	"defaultContent": ""
             },
             { 
@@ -92,47 +102,48 @@ function handleGenreSearch(value){
         }
     });
     
-    $('#patricktable').DataTable({
-    	destroy: true,
-        "data": resultData2,
-        "columns": [
+//    $('#patricktable').DataTable({
+//    	destroy: true,
+//    	"searching": false,
+//        "data": resultData,
+//        "columns": [
 //            { 
 //            	"title": "Star Link",
 //            	"data": "starlink",
 //            	"defaultContent": ""
 //            },
-            { 
-            	"title": "Title",
-            	"data": "movielink",
-            	"defaultContent": ""
-            },
-            { 
-            	"title": "Year",
-            	"data": "year",
-            	"defaultContent": ""
-            },
-            { 
-            	"title": "Star",
-            	"data": "starlink",
-            	"defaultContent": ""
-            },
-            { 
-            	"title": "Director",
-            	"data": "director",
-            	"defaultContent": ""
-            },
-            { 
-            	"title": "Genres",
-            	"data": "genres",
-            	"defaultContent": ""
-            },
-            { 
-            	"title": "Rating",
-            	"data": "rating",
-            	"defaultContent": "0"
-            }
-        ]
-    });
+//            { 
+//            	"title": "Title",
+//            	"data": "movielink",
+//            	"defaultContent": ""
+//            },
+//            { 
+//            	"title": "Year",
+//            	"data": "year",
+//            	"defaultContent": ""
+//            },
+//            { 
+//            	"title": "Star",
+//            	"data": "starlink",
+//            	"defaultContent": ""
+//            },
+//            { 
+//            	"title": "Director",
+//            	"data": "director",
+//            	"defaultContent": ""
+//            },
+//            { 
+//            	"title": "Genres",
+//            	"data": "genres",
+//            	"defaultContent": ""
+//            },
+//            { 
+//            	"title": "Rating",
+//            	"data": "rating",
+//            	"defaultContent": "0"
+//            }
+//        ]
+//    });
 }
 
 function handleMovieTitleSearch(value){
@@ -160,47 +171,48 @@ function handleMovieTitleSearch(value){
         }
     });
     
-    $('#patricktable').DataTable({
-    	destroy: true,
-        "data": resultData2,
-        "columns": [
+//    $('#patricktable').DataTable({
+//    	destroy: true,
+//    	"searching": false,
+//        "data": resultData,
+//        "columns": [
+////            { 
+////            	"title": "Star Link",
+////            	"data": "starlink",
+////            	"defaultContent": ""
+////            },
 //            { 
-//            	"title": "Star Link",
+//            	"title": "Title",
+//            	"data": "movielink",
+//            	"defaultContent": ""
+//            },
+//            { 
+//            	"title": "Year",
+//            	"data": "year",
+//            	"defaultContent": ""
+//            },
+//            { 
+//            	"title": "Star",
 //            	"data": "starlink",
 //            	"defaultContent": ""
 //            },
-            { 
-            	"title": "Title",
-            	"data": "movielink",
-            	"defaultContent": ""
-            },
-            { 
-            	"title": "Year",
-            	"data": "year",
-            	"defaultContent": ""
-            },
-            { 
-            	"title": "Star",
-            	"data": "starlink",
-            	"defaultContent": ""
-            },
-            { 
-            	"title": "Director",
-            	"data": "director",
-            	"defaultContent": ""
-            },
-            { 
-            	"title": "Genres",
-            	"data": "genres",
-            	"defaultContent": ""
-            },
-            { 
-            	"title": "Rating",
-            	"data": "rating",
-            	"defaultContent": "0"
-            }
-        ]
-    });
+//            { 
+//            	"title": "Director",
+//            	"data": "director",
+//            	"defaultContent": ""
+//            },
+//            { 
+//            	"title": "Genres",
+//            	"data": "genres",
+//            	"defaultContent": ""
+//            },
+//            { 
+//            	"title": "Rating",
+//            	"data": "rating",
+//            	"defaultContent": "0"
+//            }
+//        ]
+//    });
 }
 
 jQuery("#searchButton").click(function (e) {

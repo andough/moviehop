@@ -60,6 +60,7 @@ function handleResult(resultData) {
         let rowHTML = "";
         rowHTML += "<tr>";
         rowHTML += "<th>" + '<a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">'  + resultData[i]["movie_title"] +  '</a>' + "</th>";
+        rowHTML += "<th>" + "<button type='button' class='btn btn-primary btn-xs' onclick=window.location.href='items?newItem=" + resultData[i]["movie_id"] + "'>" + "Add to Cart</button>" + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_year"] + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_director"] + "</th>";
         rowHTML += "</tr>";

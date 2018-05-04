@@ -9,40 +9,49 @@
 <html lang="en">
 <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no">
-          
-        <!-- Latest compiled and minified CSS -->
+    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.5.1/datatables.min.css" />
-    
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
 
+    <!-- Optional theme -->
+	<link rel="stylesheet" type="text/css" href="./navbar.css" />
+	
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
-    
+
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.5.1/datatables.min.js"></script>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
     <title>Single Star</title>
 </head>
-<body>
+<style>
+body {
+    background-color: lavender;
+        }
+</style>
+<header>
+<nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a style="padding-top:12px;" class="navbar-brand glyphicon glyphicon-film" href="./index.html"></a>
+            </div>
+            <div class="navbar-header">
+                <a class="navbar-brand" href="./index.html">Movie Hop</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="./index.html">Home</a></li>
+                <li><a href="./search.html">Search</a></li>
+                <li><a href="./browse.html">Browse</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="./items"><span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
 
-	<p><div align="right">
-		<button type="button" onclick="window.location.href='items'"
-		style="background-color: transparent;  border-color: transparent;">
-		shopping cart <span class="glyphicon glyphicon-shopping-cart"></span></button>
-	</div> </p>	
-<div align = "right"> 
-    	<td><button type="button" style="background-color: transparent;  border-color: transparent; class="btn btn-primary btn-lg" onclick="window.location.href='index.html'">Home</button></td>
-    </div>
+<body>
 <h1>Single Star Page</h1>
 
 <!-- H3 body is left empty here, will be populated with the data retrieved with single-star.js -->
@@ -52,6 +61,7 @@
     <thead>
     <tr>
         <th>Movie Title</th>
+        <th>Add</th>
         <th>Release Year</th>
         <th>Director</th>
         <th>

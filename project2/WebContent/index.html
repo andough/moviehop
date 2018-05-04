@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.5.1/datatables.min.css" />
     
     <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="./navbar.css" />
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
@@ -22,19 +22,37 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Welcome to MovieHop</title>
 </head>
-
+<style>
+body {
+     background-color: lavender;
+     }
+h1 {
+	color: black;	
+}
+</style>
+<header>
+	<nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a style="padding-top:12px;" class="navbar-brand glyphicon glyphicon-film" href="./index.html"></a>
+            </div>
+            <div class="navbar-header">
+                <a class="navbar-brand" href="./index.html">Movie Hop</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="./index.html">Home</a></li>
+                <li ><a href="./search.html">Search</a></li>
+                <li><a href="./browse.html">Movie List</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="./items"><span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart</a></li>
+            </ul>
+        </div>
+       </nav>
+</header>
 <body>
-	<p><div align="right">
-		<button type="button" onclick="window.location.href='items'"
-		style="background-color: transparent;  border-color: transparent;">
-		shopping cart <span class="glyphicon glyphicon-shopping-cart"></span></button>
-	</div> </p>
-    <p><center>Welcome to MovieHop</center></p>
-    <a></a>
-    <div align = "center"> 
-    	<td><button type="button" class="btn btn-primary btn-lg" onclick="window.location.href='search.html'">search</button></td>
-    	<td><button type="button" class="btn btn-primary btn-lg" onclick="window.location.href='browse.html'">browse</button></td>
-    </div>
+    <h1 align = "center">Welcome to MovieHop</h1>
+    <img align = "middle" src="http://simpleicon.com/wp-content/uploads/movie-3-256x256.png">
 </body>
 
 </html>
