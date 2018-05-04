@@ -2,6 +2,28 @@
  * Handles the data returned by the API, read the jsonObject and populate data into html elements
  * @param resultData jsonObject
  */
+function addMovieTo(value){
+	var addMovieUrl = "./items?newItem=" + value;
+	var successMsg = "successfully added to cart";
+	
+	jQuery.ajax({
+        dataType: "json", // Setting return data type
+        method: "GET", // Setting request method
+        url: addMovieUrl, // Setting request url, which is mapped by StarsServlet in Stars.java
+        success: function (resultData) { // Setting callback function to handle data returned successfully by the StarsServlet
+        	toastr.success(successMsg);
+        }, 
+        error: function (resultData) {
+        	toastr.success(successMsg);
+        },
+        complete: function (resultData) {
+            console.log("End Of Ajax call!");
+            //A function to be called when the request finishes 
+            // (after success and error callbacks are executed). 
+        }
+    });
+}
+
 function handleSearchResult(resultData) {
 	debugger;
 	//alert(resultData.length);
@@ -13,7 +35,8 @@ function handleSearchResult(resultData) {
 		
 		value.movielink = "<a href='single-movie.html?id=" + value.movieid + "'>" + value.title + "</a>"; 
 		
-		value.movietocart = "<button type='button' class='btn btn-primary btn-xs' onclick=window.location.href='items?newItem=" + value.movieid + "'>" + "Add to Cart</button>";
+		//value.movietocart = "<button type='button' class='btn btn-primary btn-xs' onclick=window.location.href='items?newItem=" + value.movieid + "'>" + "Add to Cart</button>";
+		value.movietocart = "<button type='button' class='btn btn-primary btn-xs' onclick='addMovieTo(\"" + value.movieid + "\");'>" + "Add to Cart</button>";
 		
 		var step;
 		value.starlink = "";
@@ -23,8 +46,6 @@ function handleSearchResult(resultData) {
 		
 		resultData2.push(value);
 	});
-	
-	
 	
     $('#patricktable').DataTable({
     	destroy: true,

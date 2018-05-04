@@ -51,7 +51,7 @@ public class ItemsServlet extends HttpServlet {
         		"\r\n" + 
         		"<!-- Latest compiled JavaScript -->\r\n" + 
         		"<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script> \r\n" + 
-        		"	<link rel=\"import\" href=\"bootstrap.html\"></head>\n<body bgcolor=\"#FDF5E6\">\n"
+        		"	</head>\n<body bgcolor=\"#FDF5E6\">\n"
         		+ "<p><div align=\"right\"> account: "+ username.getUsername() +"</div></p><h1>%s <span class=\"glyphicon glyphicon-shopping-cart\"></span></h1>", docType, title, title));
         // In order to prevent multiple clients, requests from altering previousItems ArrayList at the same time, we lock the ArrayList while updating
 
@@ -63,7 +63,7 @@ public class ItemsServlet extends HttpServlet {
             Statement statement = dbCon.createStatement();
         
         Integer i = 1;
-        synchronized (previousItems) {
+        //synchronized (previousItems) {
         	
         	
         	
@@ -131,8 +131,10 @@ public class ItemsServlet extends HttpServlet {
                 out.println("</table>");
             	}
             }
+        //}
+        catch(Exception e) {
+        	out.println(String.format("<html><head><title>MovieDB: Error</title></head>\n<body><p>SQL error in doGet: %s</p></body></html>", e.getMessage()));
         }
-        catch(Exception e) {}
         //out.println("<input type=\"submit\" value=\"remove\">");
         out.println("</body></html>");
     }
