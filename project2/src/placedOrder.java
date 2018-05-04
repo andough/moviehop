@@ -66,7 +66,7 @@ public class placedOrder extends HttpServlet{
 			synchronized (previousItems) {
 					Iterator it = previousItems.entrySet().iterator();
 
-					out.println("<p>order details: </p><br>");
+					out.println("<h3 align = \"center\">order details: </h3><br>");
 					while (it.hasNext()) {
 						Map.Entry pair = (Map.Entry) it.next();
 						String previousItem = (String) pair.getKey();
@@ -93,7 +93,7 @@ public class placedOrder extends HttpServlet{
 							if (result.next())
 							{
 								Long newId = result.getLong(1);
-								out.println("<p> sale ID: " + newId + " movie purchased: " + movietitle + "</p>");
+								out.println("<h4 align = \"center\"> sale ID: " + newId + " movie purchased: " + movietitle + "</h4>");
 							}
 						}
 					}

@@ -1,10 +1,11 @@
-For our search.html page query we used the like predicate to query for  %title% , %director%, and %starsname% (All strings that contain the pattern ) 
-However, to query for movie year we used movie = year
+Patrick Pham
+Andrew Wang
+												Like-Predicate
 
-For our browse.html we used the like predicate to query for all titles that start with title% 
-
+For our search.html page query we used the like predicate to query for  %title% , %director%, and %starsname% (All strings that contain the pattern) 
+However, to query for movie year we did not use like, instead we used searched for where the movies.year = year supplied by the search query. 
+For our browse.html we also used the like predicate to query for all titles that start with title% (All titles that start with title)
 To search for the genres we used the like predicate to query for %genre%  (All strings that contain the pattern) 
-
 
 Example query: use moviedb;
 SELECT   
@@ -25,4 +26,6 @@ SELECT
             		WHERE title like '%Sky%'
 					GROUP BY   
             						movies.title;
+									
+This example query would return all movies in our database that have the word "Sky" anywhere in the movies.title column. 								
 
