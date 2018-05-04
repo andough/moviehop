@@ -99,8 +99,7 @@ public class ItemsServlet extends HttpServlet {
                 out.println("<i>No items</i>");
             } else {
             	out.println("<table BORDER=\"1\" style=\"width:100%\">");
-            	out.println("<th><center> ID </center></th>"
-            			+ "<th><center> Title </center></th> <th><center> count </center></th>"
+            	out.println("<th><center> Title </center></th> <th><center> count </center></th>"
             			+ "<th> <center> Remove One </center></th>"
             			+ " <th> <center> Remove All </center></th>");
             	
@@ -116,9 +115,7 @@ public class ItemsServlet extends HttpServlet {
                     ResultSet rs = statement.executeQuery(query);	
                     if (rs.next())
                     {
-            		
-                    out.println("<tr><td>" + previousItem + "</td>");
-                    out.println("<td>"+ rs.getString("movies.title") +"</td><td>"+ count +"</td>");
+                    out.println("<tr><td>"+ rs.getString("movies.title") +"</td><td>"+ count +"</td>");
                     out.println("<td><a href=\"items?removeItem=" + previousItem + "\">"
                     		+ "<input type=\"submit\" value=\"remove\"></a></td>");
                     out.println("<td><a href=\"items?removeAll=" + previousItem + "\">"
@@ -126,9 +123,11 @@ public class ItemsServlet extends HttpServlet {
                     }
                 }
                 out.println("<a href=\"items?clear=true\">\r\n" + 
-                		"	<p> <button type=\"button\" class=\"btn btn-primary\">clear cart</button> </p>\r\n" + 
-                		"</a>");
+                		"	<p> <button type=\"button\" class=\"btn btn-primary\">clear cart</button> </p></a>");
                 out.println("</table>");
+                
+                out.println("<p><center><a href=\"checkOut.html\">\r\n" + 
+                		"	<p> <button type=\"button\" class=\"btn btn-primary\">Proceed to Check Out</button> </p></a></center></p>");
             	}
             }
         //}

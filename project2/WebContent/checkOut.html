@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.5.1/datatables.min.css" />
+    
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.5.1/datatables.min.js"></script>
+    <meta charset="UTF-8">
+    
+<meta charset="ISO-8859-1">
+<title>CheckOut Page</title>
+</head>
+<body>
+<center><h2>CheckOut Page</h2></center>
+<!--  should ask the user to provide a credit number, expiration date, and first name and last name of the credit card holder. -->
+<div> 
+<form id="card_form" method="post" action="#">
+	<label><b>credit card</b></label>
+    <input type="text" placeholder="credit card number" name="creditid">
+    <br>
+    <label><b>expiration date</b></label></center>
+    <input type="text" placeholder="expiration date" name="expiration">
+    <br>
+    <label><b>first name</b></label>
+    <input type="text" placeholder="first" name="first">
+    <br>
+    <label><b>last name</b></label></center>
+    <input type="text" placeholder="last" name="last">
+    <br>
+    <input type="submit" class="btn btn-primary" value="checkout">
+</form>
+</div>
+
+<div id="card_error_message"></div>
+
+<!-- include jQuery-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- include our own JS file -->
+ <script src="./checkOut.js"></script>
+</body>
+</html>
