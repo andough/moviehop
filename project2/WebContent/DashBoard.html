@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.5.1/datatables.min.css" />
+    
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.5.1/datatables.min.js"></script>
+    <meta charset="UTF-8">
+    
+<meta charset="ISO-8859-1">
+<style>
+body {
+    background-color: lavender;
+}
+
+</style>
+<title>DashBoard Page</title>
+</head>
+<body>
+<center><h2>DashBoard Page</h2></center>
+<!--  should ask the user to provide a credit number, expiration date, and first name and last name of the credit card holder. -->
+<div align = "center"> 
+<form id="card_form" method="post" action="#">
+	<label><b>Title</b></label>
+    <input type="text" placeholder="title" name="title">
+    <br>
+    <label><b>Year</b></label></center>
+    <input type="text" placeholder="year" name="year">
+    <br>
+    <label><b>Director</b></label>
+    <input type="text" placeholder="director" name="director">
+    <br>
+    <label><b>Star</b></label></center>
+    <input type="text" placeholder="star" name="star">
+    <br>
+     <label><b>Genre</b></label></center>
+    <input type="text" placeholder="genre" name="genre">
+    <br>
+    <input type="submit" class="btn btn-primary" value="checkout">
+</form>
+</div>
+
+<div align = "center" id="card_error_message"></div>
+
+<!-- include jQuery-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- include our own JS file -->
+ <script src="./DashBoard.js"></script>
+</body>
+</html>
