@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -27,9 +28,24 @@ public class LoginServlet extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    	 PrintWriter out = response.getWriter();
+
+        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+        System.out.println("gRecaptchaResponse=" + gRecaptchaResponse);
+
+        // Verify reCAPTCHA
+        try {
+            RecaptchaVerifyUtils.verify(gRecaptchaResponse);
+        } catch (Exception e) {
+            
+        	  JsonObject responseJsonObject = new JsonObject();
+              responseJsonObject.addProperty("status", "fail");
+              responseJsonObject.addProperty("message", e.getMessage());
+              response.getWriter().write(responseJsonObject.toString());
+            return;
+        }
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        PrintWriter out = response.getWriter();
         /* This example only allows username/password to be test/test
         /  in the real project, you should talk to the database to verify username/password
         */
@@ -40,9 +56,9 @@ public class LoginServlet extends HttpServlet {
             Connection dbCon = dataSource.getConnection();
 
             // Declare a new statement
-            Statement statement = dbCon.createStatement();
             String query = String.format("SELECT customers.email, customers.password from customers where customers.email = '%s' and customers.password = '%s';", username, password);
-            ResultSet rs = statement.executeQuery(query);
+            PreparedStatement statement = dbCon.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 // Login success:
 

@@ -51,7 +51,19 @@ body {
 </div>
 
 <div align = "center" id="card_error_message"></div>
+<table id=movie_table class="table table-striped">
+    <thead>
+    <tr>
+        <th>table_name</th>
+        <th>column_name</th>
+        <th>column_type Year</th>
+    </tr>
+    </thead>
 
+    <!-- Table body is left empty here, will be populated with the data retrieved with single-star.js -->
+    <!-- single-star.js will find this html element by it's id "movie_table_body" -->
+    <tbody id=movie_table_body></tbody>
+</table>
 <!-- include jQuery-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!-- include our own JS file -->

@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.*;
@@ -45,7 +46,6 @@ public class confirmation extends HttpServlet{
 			Connection dbCon = dataSource.getConnection();
 
 			// Declare a new statement
-			Statement statement = dbCon.createStatement();
 
 			synchronized (previousItems) {
 
@@ -64,12 +64,14 @@ public class confirmation extends HttpServlet{
 
 						String query = String.format(
 								"SELECT movies.id, movies.title from movies where movies.id = '%s';", previousItem);
-						ResultSet rs = statement.executeQuery(query);
+						PreparedStatement statement = dbCon.prepareStatement(query);
+						ResultSet rs = statement.executeQuery();
 
 						if (rs.next()) {
 							out.println("<tr><td>" + rs.getString("movies.title") + "</td><td>" + count + "</td></tr>");
 						}
 						rs.close();
+						statement.close();
 					}
 					
 					out.println("</table></div>");
@@ -80,7 +82,6 @@ public class confirmation extends HttpServlet{
 				}
 				
 			}
-			statement.close();
         	dbCon.close();
         	out.close();
 		} catch (Exception e) {

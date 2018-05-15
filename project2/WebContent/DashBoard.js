@@ -7,7 +7,7 @@ function handleCardResult(resultDataString) {
 
     // If login success, redirect to index.html page
     if (resultDataJson["status2"] === "success") {
-        window.location.replace("confirmation");
+    	alert("success");
     }
     // If login fail, display error message on <div> with id "login_error_message"
     else {
@@ -53,7 +53,10 @@ function Result(resultData){
 
 // Bind the submit action of the form to a handler function
 jQuery("#card_form").submit((event) => submitCardForm(event));
-jQuery.get("api/DashBoard", 
-		jQuery("#metadata_table").serialize,
-		(resultData) => Result(resultData)); // Setting callback function to handle data returned successfully by the SingleStarServlet
+jQuery.ajax({
+    dataType: "json",  // Setting return data type
+    method: "GET",// Setting request method
+    url: "/MetaData", // Setting request url, which is mapped by StarsServlet in Stars.java
+    success: (resultData) => handleResult(resultData) // Setting callback function to handle data returned successfully by the SingleStarServlet
+});
 

@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<script src='https://www.google.com/recaptcha/api.js'></script>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.5.1/datatables.min.css" />
@@ -36,9 +37,9 @@ body {
   <center><input type="password" placeholder="Enter Password" name="password"></center>
     <br>
    <input type="submit" class="btn btn-primary" value="Login">
+   <div class="g-recaptcha" data-sitekey="6Lc3S1kUAAAAAL7cOa2Apc0jZjlptTmcGF2NsWG0"></div>
 </form>
 </div>
-
 <div align ="center" id="login_error_message"></div>
 
 <!-- include jQuery-->

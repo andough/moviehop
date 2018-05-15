@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.*;
@@ -39,12 +40,13 @@ public class CheckOutServlet extends HttpServlet {
 			Connection dbCon = dataSource.getConnection();
 
 			// Declare a new statement
-			Statement statement = dbCon.createStatement();
 			String query = String.format(
 					"SELECT creditcards.id, creditcards.expiration, creditcards.firstName, creditcards.lastName"
 					+ " from creditcards where creditcards.id = '%s' and creditcards.expiration = '%s' and creditcards.firstName = '%s'"
 					+ "and creditcards.lastName = '%s';", id,expiration,first,last);
-			ResultSet rs = statement.executeQuery(query);
+			
+			PreparedStatement statement = dbCon.prepareStatement(query);
+			ResultSet rs = statement.executeQuery();
 			if (rs.next()) {
 				// Login success:
 

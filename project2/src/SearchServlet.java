@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -42,37 +43,31 @@ public class SearchServlet extends HttpServlet {
             Connection dbcon = dataSource.getConnection();
 
             // Declare our statement
-            Statement statement = dbcon.createStatement();
+            //Statement statement = dbcon.createStatement();
 
-            String query = "SELECT \r\n" + 
-            		"		movies.title, \r\n" + 
-            		"		movies.year, \r\n" + 
-            		"		movies.director, \r\n" + 
-            		"		movies.id AS 'movieid', \r\n" + 
-//            		"       stars_in_movies.starId,\r\n" + 
-            		"       GROUP_CONCAT( distinct stars.name) AS 'star', \r\n" + 
-            		"       GROUP_CONCAT( distinct stars.id) AS 'starid', \r\n" + 
-//            		"        genres_in_movies.genreId,\r\n" + 
-            		"        GROUP_CONCAT( distinct genres.name) AS 'genres', \r\n" + 
-            		"        ratings.rating \r\n" + 
-            		"        \r\n" + 
-            		"FROM movies\r\n" + 
-            		"LEFT OUTER JOIN stars_in_movies ON movies.id = stars_in_movies.movieId\r\n" + 
-            		"LEFT OUTER JOIN stars ON stars_in_movies.starId = stars.id\r\n" + 
-            		"LEFT OUTER JOIN genres_in_movies ON movies.id = genres_in_movies.movieId\r\n" + 
-            		"LEFT OUTER JOIN genres ON genres_in_movies.genreId = genres.id\r\n" +
-            		"LEFT OUTER JOIN ratings ON movies.id = ratings.movieId\r\n" +
-            		"WHERE " + whereclause +
-            		" GROUP BY \r\n" + 
-            				"		movies.title; \r\n";
-//            				"		movies.year, \r\n" + 
-//            				"		genres.name, \r\n" + 
-//            				"		ratings.rating, \r\n" + 
-//            				"		movies.director;\r\n";
-            
-            
+//            String query = "SELECT \r\n" + 
+//            		"		movies.title, \r\n" + 
+//            		"		movies.year, \r\n" + 
+//            		"		movies.director, \r\n" + 
+//            		"		movies.id AS 'movieid', \r\n" + 
+//            		"       GROUP_CONCAT( distinct stars.name) AS 'star', \r\n" + 
+//            		"       GROUP_CONCAT( distinct stars.id) AS 'starid', \r\n" + 
+//            		"        GROUP_CONCAT( distinct genres.name) AS 'genres', \r\n" + 
+//            		"        ratings.rating \r\n" + 
+//            		"        \r\n" + 
+//            		"FROM movies\r\n" + 
+//            		"LEFT OUTER JOIN stars_in_movies ON movies.id = stars_in_movies.movieId\r\n" + 
+//            		"LEFT OUTER JOIN stars ON stars_in_movies.starId = stars.id\r\n" + 
+//            		"LEFT OUTER JOIN genres_in_movies ON movies.id = genres_in_movies.movieId\r\n" + 
+//            		"LEFT OUTER JOIN genres ON genres_in_movies.genreId = genres.id\r\n" +
+//            		"LEFT OUTER JOIN ratings ON movies.id = ratings.movieId\r\n" +
+//            		"WHERE " + whereclause +
+//            		" GROUP BY \r\n" + 
+//            				"		movies.title; \r\n";
+            String query = String.format("SELECT  movies.title, movies.year, movies.director, movies.id AS 'movieid', GROUP_CONCAT( distinct stars.name) AS 'star', GROUP_CONCAT( distinct stars.id) AS 'starid', GROUP_CONCAT( distinct genres.name) AS 'genres', ratings.rating FROM movies  LEFT OUTER JOIN stars_in_movies ON movies.id = stars_in_movies.movieId  LEFT OUTER JOIN stars ON stars_in_movies.starId = stars.id  LEFT OUTER JOIN genres_in_movies ON movies.id = genres_in_movies.movieId  LEFT OUTER JOIN genres ON genres_in_movies.genreId = genres.id LEFT OUTER JOIN ratings ON movies.id = ratings.movieId WHERE %s GROUP BY movies.title;" , whereclause );
+            PreparedStatement statement = dbcon.prepareStatement(query);
             // Perform the query
-            ResultSet rs = statement.executeQuery(query);
+            ResultSet rs = statement.executeQuery();
 
             JsonArray jsonArray = new JsonArray();
 

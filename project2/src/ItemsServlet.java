@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -54,14 +55,14 @@ public class ItemsServlet extends HttpServlet {
             Connection dbCon = dataSource.getConnection();
 
             // Declare a new statement
-            Statement statement = dbCon.createStatement();
         
         //Integer i = 1;
         synchronized (previousItems) {       
         	 Integer i = 1;
             if (newItem != null) {
             	String query = String.format("SELECT movies.id, movies.title from movies where movies.id = '%s';", newItem);
-                ResultSet rs = statement.executeQuery(query);	
+            	PreparedStatement statement = dbCon.prepareStatement(query);
+                ResultSet rs = statement.executeQuery();	
             	if(rs.next())
             	{
             		if(previousItems.containsKey(newItem)) 
@@ -121,7 +122,8 @@ public class ItemsServlet extends HttpServlet {
             		Integer count = (Integer)pair.getValue();
             		
             		String query = String.format("SELECT movies.id, movies.title from movies where movies.id = '%s';", previousItem);
-                    ResultSet rs = statement.executeQuery(query);	
+            		PreparedStatement statement = dbCon.prepareStatement(query);
+                    ResultSet rs = statement.executeQuery();	
                     if (rs.next())
                     {
                     out.println("<tr><td>"+ rs.getString("movies.title") +"</td><td>"+ count +"</td>");
@@ -131,6 +133,7 @@ public class ItemsServlet extends HttpServlet {
                     		+ "<input type=\"submit\" value=\"remove All\"></a></td></tr>");
                     }
                     rs.close();
+                    statement.close();
                 }
                 out.println("<a href=\"items?clear=true\">\r\n" + 
                 		"	<p> <button type=\"button\" class=\"btn btn-primary\">clear cart</button> </p></a>");
@@ -139,9 +142,9 @@ public class ItemsServlet extends HttpServlet {
                 out.println("<p><center><a href=\"checkOut.html\">\r\n" + 
                 		"	<p> <button type=\"button\" class=\"btn btn-primary\">Proceed to Check Out</button> </p></a></center></p>");
             	}
+            
             }
         
-        	statement.close();
         	dbCon.close();
         }
         catch(Exception e) {

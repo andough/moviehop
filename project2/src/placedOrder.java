@@ -51,12 +51,12 @@ public class placedOrder extends HttpServlet{
 			Connection dbCon = dataSource.getConnection();
 
 			// Declare a new statement
-			Statement statement = dbCon.createStatement();
 
 			String customerEmail = (String)((User)session.getAttribute("user")).getUsername();
 			String q = String.format(
 					"SELECT customers.id, customers.email from customers where customers.email = '%s';", customerEmail);
-			ResultSet customerProfile = statement.executeQuery(q);
+			PreparedStatement statement = dbCon.prepareStatement(q);
+			ResultSet customerProfile = statement.executeQuery();
 			
 			
 			int customerId = 0;
