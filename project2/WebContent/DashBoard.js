@@ -14,8 +14,9 @@ function handleCardResult(resultDataString) {
 
         console.log("show error message");
         console.log(resultDataJson["message2"]);
-        jQuery("#card_error_message").text(resultDataJson["message2"]);
-    }
+        alert(resultDataJson["message2"]);
+        //jQuery("#card_error_message").text(resultDataJson["message2"]);
+    }   
 }
 
 function submitCardForm(formSubmitEvent) {
@@ -33,6 +34,26 @@ function submitCardForm(formSubmitEvent) {
         (resultDataString) => handleCardResult(resultDataString));
 
 }
+function Result(resultData){
+    let movieTableBodyElement = jQuery("#movie_table_body");
+
+    // Concatenate the html tags with resultData jsonObject to create table rows
+    for (let i = 0; i < resultData.length; i++) {
+        let rowHTML = "";
+        rowHTML += "<tr>";
+        rowHTML += "<th>" + resultData[i]["table_name"] + "</th>";
+        rowHTML += "<th>" + resultData[i]["column_name"] + "</th>";
+        rowHTML += "<th>" + resultData[i]["column_type"] + "</th>";
+        rowHTML += "</tr>";
+
+        // Append the row created to the table body, which will refresh the page
+        movieTableBodyElement.append(rowHTML);
+    }
+}
 
 // Bind the submit action of the form to a handler function
 jQuery("#card_form").submit((event) => submitCardForm(event));
+jQuery.get("api/DashBoard", 
+		jQuery("#metadata_table").serialize,
+		(resultData) => Result(resultData)); // Setting callback function to handle data returned successfully by the SingleStarServlet
+
