@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 
 //
 @WebServlet(name = "LoginServlet", urlPatterns = "/api/login")
@@ -56,12 +57,15 @@ public class LoginServlet extends HttpServlet {
             Connection dbCon = dataSource.getConnection();
 
             // Declare a new statement
-            String query = String.format("SELECT customers.email, customers.password from customers where customers.email = '%s' and customers.password = '%s';", username, password);
+            String query = String.format("SELECT * from customers where email='%s'", username);
             PreparedStatement statement = dbCon.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
+            boolean success = false;
             if (rs.next()) {
                 // Login success:
-
+            	String encryptedPassword = rs.getString("password");
+            	success = new StrongPasswordEncryptor().checkPassword(password, encryptedPassword);
+            	if (success) {
                 // set this user into the session
                 request.getSession().setAttribute("user", new User(username));
 
@@ -70,13 +74,14 @@ public class LoginServlet extends HttpServlet {
                 responseJsonObject.addProperty("message", "success");
 
                 response.getWriter().write(responseJsonObject.toString());
-            } else {
+            	}
+             else {
                 // Login fail
                 JsonObject responseJsonObject = new JsonObject();
                 responseJsonObject.addProperty("status", "fail");
                 responseJsonObject.addProperty("message", "invalid login");
                 response.getWriter().write(responseJsonObject.toString());
-            }
+             }}
             rs.close();
             statement.close();
             dbCon.close();

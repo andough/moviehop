@@ -5,9 +5,8 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.5.1/datatables.min.css" />
-    
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="./navbar.css" />
+   
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
@@ -26,9 +25,30 @@ body {
 </style>
 <title>DashBoard Page</title>
 </head>
+<header>
+	<nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a style="padding-top:12px;" class="navbar-brand glyphicon glyphicon-film" href="./index.html"></a>
+            </div>
+            <div class="navbar-header">
+                <a class="navbar-brand" href="./index.html">Movie Hop</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="./index.html">Home</a></li>
+                <li ><a href="./search.html">Search</a></li>
+                <li><a href="./browse.html">Movie List</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="./CartContainer.html"><span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart</a></li>
+            </ul>
+        </div>
+       </nav>
+</header>
 <body>
 <center><h2>DashBoard Page</h2></center>
 <!--  should ask the user to provide a credit number, expiration date, and first name and last name of the credit card holder. -->
+<center><h4>Add Movie</h4></center>
 <div align = "center"> 
 <form id="card_form" method="post" action="#">
 	<label><b>Title</b></label>
@@ -43,10 +63,26 @@ body {
     <label><b>Star</b></label></center>
     <input type="text" placeholder="star" name="star">
     <br>
+    <label><b>Birth Year</b></label></center>
+    <input type="text" placeholder="birthyear" name="birthyear">
+    <br>
      <label><b>Genre</b></label></center>
     <input type="text" placeholder="genre" name="genre">
     <br>
-    <input type="submit" class="btn btn-primary" value="checkout">
+    <input type="submit" class="btn btn-primary" value="submit">
+</form>
+</div>
+
+<center><h4>Add Star</h4></center>
+<div align = "center"> 
+<form id="star_form" method="post" action="#">
+    <label><b>Star</b></label></center>
+    <input type="text" placeholder="star" name="star1">
+    <br>
+    <label><b>Birth Year</b></label></center>
+    <input type="text" placeholder="birthyear" name="birthyear1">
+    <br>
+    <input type="submit" class="btn btn-primary" value="submit">
 </form>
 </div>
 
