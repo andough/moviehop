@@ -1,0 +1,10 @@
+optimizations for xml parse
+1. used dom parser over sax parser to further reduce running time by loading entire file in memory. 
+Few improvements to running time and uses more memory.
+2. batch insert when possible to make program more efficient by reducing overhead required when sending an insert to mysql. 
+larger improvements to running time based on the number of executes saved
+3. cache list of actors as a hashmap to reduce number of calls and repetitive searches to mysql. 
+Most significant changes in running time by using only 1 query to sql versus a query for every entry. 
+While this reduces running time however, it uses a lot of memory to store entire table into the hashmap.
+4. cache most recent query for movie search to prevent making the same call. 
+This made significant improvements when parsing CastParser since the format of the xml is ordered by movie.
