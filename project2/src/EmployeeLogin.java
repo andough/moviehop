@@ -16,8 +16,8 @@ import java.sql.Statement;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
 //
-@WebServlet(name = "LoginServlet", urlPatterns = "/api/login")
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "EmployeeLogin", urlPatterns = "/api/EmployeeLogin")
+public class EmployeeLogin extends HttpServlet {
     private static final long serialVersionUID = 1L;
     
  // Create a dataSource which registered in web.xml
@@ -30,21 +30,6 @@ public class LoginServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     	 PrintWriter out = response.getWriter();
-
-        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
-        System.out.println("gRecaptchaResponse=" + gRecaptchaResponse);
-
-        // Verify reCAPTCHA
-        try {
-            RecaptchaVerifyUtils.verify(gRecaptchaResponse);
-        } catch (Exception e) {
-            
-        	  JsonObject responseJsonObject = new JsonObject();
-              responseJsonObject.addProperty("status", "fail");
-              responseJsonObject.addProperty("message", e.getMessage());
-              response.getWriter().write(responseJsonObject.toString());
-            return;
-        }
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         /* This example only allows username/password to be test/test
@@ -52,12 +37,11 @@ public class LoginServlet extends HttpServlet {
         */
         try 
        {
-
             // Create a new connection to database
             Connection dbCon = dataSource.getConnection();
 
             // Declare a new statement
-            String query = String.format("SELECT * from customers where email='%s'", username);
+            String query = String.format("SELECT * from employees where email= '%s'", username);
             PreparedStatement statement = dbCon.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
             boolean success = false;
@@ -66,9 +50,7 @@ public class LoginServlet extends HttpServlet {
             	String encryptedPassword = rs.getString("password");
             	success = new StrongPasswordEncryptor().checkPassword(password, encryptedPassword);
             	if (success) {
-                // set this user into the session
-                request.getSession().setAttribute("user", new User(username));
-
+            	request.getSession().setAttribute("employee", new User(username, true));
                 JsonObject responseJsonObject = new JsonObject();
                 responseJsonObject.addProperty("status", "success");
                 responseJsonObject.addProperty("message", "success");

@@ -2,6 +2,8 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
 
 /**
@@ -18,7 +20,6 @@ public class LoginFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
         System.out.println("LoginFilter: " + httpRequest.getRequestURI());
-
         // Check if this URL is allowed to access without logging in
         if (this.isUrlAllowedWithoutLogin(httpRequest.getRequestURI())) {
             // Keep default action: pass along the filter chain
@@ -27,9 +28,15 @@ public class LoginFilter implements Filter {
         }
 
         // Redirect to login page if the "user" attribute doesn't exist in session
-        if (httpRequest.getSession().getAttribute("user") == null) {
+        if (httpRequest.getSession().getAttribute("user") == null && httpRequest.getSession().getAttribute("employee") == null) {
             httpResponse.sendRedirect("login.html");
-        } else {
+        } else if (httpRequest.getSession().getAttribute("user") != null && !(this.isUrlAllowedWithLogin(httpRequest.getRequestURI()))) {
+            chain.doFilter(request, response);
+        }
+        if (this.isUrlAllowedWithLogin(httpRequest.getRequestURI()) && httpRequest.getSession().getAttribute("employee") == null ) {
+        	httpResponse.sendRedirect("EmployeeLogin.html");
+        }
+        else {
             chain.doFilter(request, response);
         }
     }
@@ -41,7 +48,14 @@ public class LoginFilter implements Filter {
         requestURI = requestURI.toLowerCase();
 
         return requestURI.endsWith("login.html") || requestURI.endsWith("login.js")
-                || requestURI.endsWith("api/login");
+                || requestURI.endsWith("api/login") || requestURI.endsWith("EmployeeLogin.html") 
+                || requestURI.endsWith("api/EmployeeLogin") || requestURI.endsWith("EmployeeLogin.js") ;
+    }
+    private boolean isUrlAllowedWithLogin(String requestURI) {
+        requestURI = requestURI.toLowerCase();
+
+        return requestURI.endsWith("DashBoard.html") || requestURI.endsWith("api/MetaData") || requestURI.endsWith("DashBoard.js")
+        		|| requestURI.endsWith("api/DashBoard");
     }
 
     /**

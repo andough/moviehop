@@ -39,8 +39,14 @@ public class ItemsServlet extends HttpServlet {
         String clear = request.getParameter("clear");
         String removeItem = request.getParameter("removeItem");
         String removeAll = request.getParameter("removeAll");
-        User username = (User)session.getAttribute("user");
-
+        User username = null;
+        if (session.getAttribute("user") == null)
+        {
+        	username = (User)session.getAttribute("employee");
+        }
+        else {
+        	username = (User)session.getAttribute("user");
+        }
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         String title = "Shopping Cart";

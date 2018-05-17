@@ -30,7 +30,9 @@ function handleSearchResult(resultData) {
 	
 	var resultData2 = [];
 	$.each(resultData, function(index, value){
-		var arrStars = value.star.split(',');
+		if (value.star != null)
+		var arrStars = value.star.split(','); 
+		if (value.starid != null)
 		var arrStarIds = value.starid.split(',');
 		
 		value.movielink = "<a href='single-movie.html?id=" + value.movieid + "'>" + value.title + "</a>"; 
@@ -40,9 +42,10 @@ function handleSearchResult(resultData) {
 		
 		var step;
 		value.starlink = "";
+		if (value.starid != null) {
 		for (step = 0; step < arrStars.length; step++){
 			value.starlink += "<a href='single-star.html?id=" + arrStarIds[step] + "'>" + arrStars[step] + "</a>, ";
-		}
+		}}
 		
 		resultData2.push(value);
 	});
