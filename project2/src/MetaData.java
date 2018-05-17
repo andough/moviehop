@@ -17,8 +17,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.*;
 
-@WebServlet(name = "MetaData", urlPatterns = "/MetaData")
+@WebServlet(name = "MetaData", urlPatterns = "/api/MetaData")
 public class MetaData extends HttpServlet {
+    private static final long serialVersionUID = 1L;
 	@Resource(name = "jdbc/moviedb")
 	private DataSource dataSource;
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
