@@ -14,7 +14,7 @@ function handleCardResult(resultDataString) {
         console.log("show error message");
         console.log(resultDataJson["message2"]);
         //alert("error");
-        alert(resultDataJson["message2"]);
+        alert("duplicate movie");
         //jQuery("#card_error_message").text(resultDataJson["message2"]);
     }   
 }

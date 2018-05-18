@@ -1,4 +1,3 @@
-DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_movie`(in _title varchar(100), 
 in _year integer, _director varchar(100), _star varchar(100),in _birthyear integer, _genre varchar(32))
 BEGIN
@@ -10,6 +9,17 @@ BEGIN
     declare _movie_id varchar(10) default "";
     declare _max_movie_id varchar(10);
     declare _temp_movie_id int default 0;
+	declare _temp_title varchar(50) default "";
+    declare _temp_year int default 0;
+    declare _temp_director varchar(50) default "";
+    
+	select title into _temp_title from movies where title = _title;
+    select year  into _temp_year from movies where year = _year and title = _title;
+	select director into _temp_director from movies where director = _director and year = _year and title = _title;
+        
+	if _temp_title = _title and _temp_year = _year and _temp_director = _director then
+		Select * from blasdasdaa;
+	end if;
     
     #find existing IDs
     Select id into _genres_id from genres where name =  _genre;
@@ -17,8 +27,8 @@ BEGIN
     #Select id into _movie_id from movies where title = _title and year = _year and director = _director;
     
     #create new IDs if not found
-    #Select id into _max_starid from stars order by id desc limit 1;
-    
+    #Select id into _max_starid from stars order by id desc limit 1
+   
     if _genres_id = 0 then
 		Select max(id) + 1 into _genres_id from genres;
         
@@ -97,4 +107,3 @@ BEGIN
     
     select _star_id, _max_starid, _genres_id, _temp_star_id, _movie_id, _max_movie_id, _temp_movie_id;
 END
-//

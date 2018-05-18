@@ -89,4 +89,3 @@ CREATE TABLE employees(
 	password varchar(20) not null,
 	fullname varchar(100)
 );
-alter table movies add unique index(title ,year, director);
