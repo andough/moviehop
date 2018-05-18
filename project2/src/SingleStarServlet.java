@@ -43,16 +43,16 @@ public class SingleStarServlet extends HttpServlet {
 			Connection dbcon = dataSource.getConnection();
 
 			// Construct a query with parameter represented by "?"
-			String query = "SELECT\r\n" + 
-					"	m.title,\r\n" + 
-					"    m.year,\r\n" + 
-					"    m.director,\r\n" + 
-					"    m.id AS movieId,\r\n" + 
-					"    s.id AS starId,\r\n" + 
-					"    IFNULL(s.birthYear, '') AS birthYear,\r\n" + 
-					"    s.name\r\n" + 
-					"from stars as s, stars_in_movies as sim, movies as m where m.id = sim.movieId and sim.starId = s.id and s.id = ?;";
-
+//			String query = "SELECT\r\n" + 
+//					"	m.title,\r\n" + 
+//					"    m.year,\r\n" + 
+//					"    m.director,\r\n" + 
+//					"    m.id AS movieId,\r\n" + 
+//					"    s.id AS starId,\r\n" + 
+//					"    IFNULL(s.birthYear, '') AS birthYear,\r\n" + 
+//					"    s.name\r\n" + 
+//					"from stars as s, stars_in_movies as sim, movies as m where m.id = sim.movieId and sim.starId = s.id and s.id = ?;";
+			String query = "Select * from stars where id = ?;";
 			// Declare our statement
 			PreparedStatement statement = dbcon.prepareStatement(query);
 
@@ -68,34 +68,46 @@ public class SingleStarServlet extends HttpServlet {
 			// Iterate through each row of rs
 			while (rs.next()) {
 
-				String starId = rs.getString("starId");
+				String starId = rs.getString("id");
 				String starName = rs.getString("name");
 				String starDob = rs.getString("birthYear");
-
-				String movieId = rs.getString("movieId");
-				String movieTitle = rs.getString("title");
-				String movieYear = rs.getString("year");
-				String movieDirector = rs.getString("director");
-
-				// Create a JsonObject based on the data we retrieve from rs
-
 				JsonObject jsonObject = new JsonObject();
 				jsonObject.addProperty("star_id", starId);
 				jsonObject.addProperty("star_name", starName);
 				jsonObject.addProperty("star_dob", starDob);
-				jsonObject.addProperty("movie_id", movieId);
-				jsonObject.addProperty("movie_title", movieTitle);
-				jsonObject.addProperty("movie_year", movieYear);
-				jsonObject.addProperty("movie_director", movieDirector);
+				String query1 = "SELECT\r\n" + 
+						"	m.title,\r\n" + 
+						"    m.year,\r\n" + 
+						"    m.director,\r\n" + 
+						"    m.id AS movieId,\r\n" + 
+						"    s.id AS starId,\r\n" + 
+						"    IFNULL(s.birthYear, '') AS birthYear,\r\n" + 
+						"    s.name\r\n" + 
+						"from stars as s, stars_in_movies as sim, movies as m where m.id = sim.movieId and sim.starId = s.id and s.id = ?;";
+				PreparedStatement statement1 = dbcon.prepareStatement(query1);
+				statement1.setString(1, id);
+				ResultSet bs = statement1.executeQuery();
+				while(bs.next()) {
+					String movieId = bs.getString("movieId");
+					String movieTitle = bs.getString("title");
+					String movieYear = bs.getString("year");
+					String movieDirector = bs.getString("director");
+	
+					// Create a JsonObject based on the data we retrieve from rs
+					jsonObject.addProperty("movie_id", movieId);
+					jsonObject.addProperty("movie_title", movieTitle);
+					jsonObject.addProperty("movie_year", movieYear);
+					jsonObject.addProperty("movie_director", movieDirector);
+				}
 
 				jsonArray.add(jsonObject);
+				bs.close();
 			}
 			
             // write JSON string to output
             out.write(jsonArray.toString());
             // set response status to 200 (OK)
             response.setStatus(200);
-
 			rs.close();
 			statement.close();
 			dbcon.close();
