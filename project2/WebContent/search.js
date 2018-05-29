@@ -193,6 +193,34 @@ jQuery("#searchButton").click(function (e) {
     });
 });
 
+function handleMovieTitleSearch(value){
+	//alert(value);
+	var searchStr = " title like '" + value + "%'";
+	var searchUrl = "api/search?whereclause=" + encodeURIComponent(searchStr);
+	
+	
+    jQuery.ajax({
+        dataType: "json", // Setting return data type
+        method: "GET", // Setting request method
+        url: searchUrl, // Setting request url, which is mapped by StarsServlet in Stars.java
+        success: function (resultData) { // Setting callback function to handle data returned successfully by the StarsServlet
+            handleSearchResult(resultData);
+        }, 
+        error: function (resultData) {
+            debugger;
+            console.log("there was an error");
+        },
+        complete: function (resultData) {
+            debugger;
+            console.log("End Of Ajax call!");
+            //A function to be called when the request finishes 
+            // (after success and error callbacks are executed). 
+        }
+    });
+    
+}
+
+
 jQuery("#clearButton").click(function (e) {
     //do something
     $("#movieText").val("");
