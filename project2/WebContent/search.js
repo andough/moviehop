@@ -232,17 +232,31 @@ $("#moviesearchauto").autocomplete(
 		{
 			// source: availableTags,
 			source : function(request, response) {
-				var movieAutoStr = " title like '%" + request.term + "%'";
-				var movieAutoUrl = "api/search?whereclause=" + encodeURIComponent(movieAutoStr);
+				var step;
+				var movieAutoStr = "";
+				var arrStars = request.term.split(' '); 
+				for (step = 0; step < arrStars.length; step ++)
+				{
+					if (arrStars[step].length > 0){
+						movieAutoStr += "+" + arrStars[step] + "* ";
+					}
+					else {
+						movieAutoStr += "";
+					}
+				}
+				//var movieAutoStr = " title like '%" + request.term + "%'";
+				var movieAutoUrl = "api/auto?whereclause=" + encodeURIComponent(movieAutoStr);
 				// this is for beginning matches
 				var count = 0;
-				var matcher = new RegExp("^"
-						+ $.ui.autocomplete.escapeRegex(request.term), "i");
+//				var matcher = new RegExp("^"
+//						+ $.ui.autocomplete.escapeRegex(request.term), "i");
 
 				// this is for containing matches
 
-				var matcher = new RegExp($.ui.autocomplete
-						.escapeRegex(request.term), "i");
+//				var matcher = new RegExp($.ui.autocomplete
+//						.escapeRegex(request.term), "i");
+				console.log("autocomplete initiated")
+				console.log("sending AJAX request to backend Java Servlet")
 				$.ajax({
 					url : movieAutoUrl,
 					type : "GET",
@@ -253,8 +267,10 @@ $("#moviesearchauto").autocomplete(
 						//term : encodeURIComponent(movieAutoStr) //request.term
 					},
 					success : function(data) {
+						console.log("lookup ajax successful")
+						console.log(data)
 						response($.map(data, function(item){
-							if (matcher.test(item.title) && count <= 10) {
+							if (count <= 10) {
 								count += 1;
 								return {
 									label : item.title,
@@ -265,9 +281,10 @@ $("#moviesearchauto").autocomplete(
 						}));
 						// response(data);
 					},
-					error : function(jqXHR, textStatus, errorThrown) {
+					error : function(errorThrown) {
 						debugger;
-						alert("error handler!");
+						console.log("lookup ajax error")
+						console.log(errorThrown)
 					}
 				})
 			},
@@ -277,4 +294,5 @@ $("#moviesearchauto").autocomplete(
 				var newUrl = "/project2/single-movie.html?id=" + ui.item.movieid;
 				window.location.href = newUrl;
 			}
-		});
+});
+			
