@@ -1,5 +1,5 @@
-/**
- * Handles the data returned by the API, read the jsonObject and populate data into html elements
+/** 
+* Handles the data returned by the API, read the jsonObject and populate data into html elements
  * @param resultData jsonObject
  */
 function addMovieTo(value){
@@ -128,33 +128,6 @@ function handleGenreSearch(value){
     
 }
 
-function handleMovieTitleSearch(value){
-	//alert(value);
-	var searchStr = " title like '" + value + "%'";
-	var searchUrl = "api/search?whereclause=" + encodeURIComponent(searchStr);
-	
-	
-    jQuery.ajax({
-        dataType: "json", // Setting return data type
-        method: "GET", // Setting request method
-        url: searchUrl, // Setting request url, which is mapped by StarsServlet in Stars.java
-        success: function (resultData) { // Setting callback function to handle data returned successfully by the StarsServlet
-            handleSearchResult(resultData);
-        }, 
-        error: function (resultData) {
-            debugger;
-            console.log("there was an error");
-        },
-        complete: function (resultData) {
-            debugger;
-            console.log("End Of Ajax call!");
-            //A function to be called when the request finishes 
-            // (after success and error callbacks are executed). 
-        }
-    });
-    
-}
-
 jQuery("#searchButton").click(function (e) {
     //call api to search by Tile
     debugger;
@@ -227,3 +200,53 @@ jQuery("#clearButton").click(function (e) {
     $("#directorText").val("");
     $("#starText").val("");
 });
+$("#moviesearchauto").autocomplete(
+		{
+			// source: availableTags,
+			source : function(request, response) {
+				var movieAutoStr = " title like '%" + request.term + "%'";
+				var movieAutoUrl = "api/search?whereclause=" + encodeURIComponent(movieAutoStr);
+				// this is for beginning matches
+				var count = 0;
+				var matcher = new RegExp("^"
+						+ $.ui.autocomplete.escapeRegex(request.term), "i");
+
+				// this is for containing matches
+
+				var matcher = new RegExp($.ui.autocomplete
+						.escapeRegex(request.term), "i");
+				$.ajax({
+					url : movieAutoUrl,
+					type : "GET",
+					contentType : "application/json; charset=utf-8",
+					dataType : "json",
+					cache : false,
+					data : {
+						//term : encodeURIComponent(movieAutoStr) //request.term
+					},
+					success : function(data) {
+						response($.map(data, function(item){
+							if (matcher.test(item.title) && count <= 10) {
+								count += 1;
+								return {
+									label : item.title,
+									value : item.title,
+									movieid: item.movieid
+								}
+							}
+						}));
+						// response(data);
+					},
+					error : function(jqXHR, textStatus, errorThrown) {
+						debugger;
+						alert("error handler!");
+					}
+				})
+			},
+			minLength : 3,
+			select : function(event, ui) {
+				debugger;
+				var newUrl = "/project2/single-movie.html?id=" + ui.item.movieid;
+				window.location.href = newUrl;
+			}
+		});
