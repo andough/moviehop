@@ -144,6 +144,48 @@ jQuery("#searchButton").click(function (e) {
     });
 });
 
+$('#moviesearchauto').keypress(function(event) {
+	// keyCode 13 is the enter key
+	if (event.keyCode == 13) {
+		// pass the value of the input box to the handler function
+		 var movieAutoStr = "";
+		    var movieStr = $.trim($("#moviesearchauto").val());
+			var arrStars = movieStr.split(' '); 
+					for (step = 0; step < arrStars.length; step ++)
+						{
+							if (arrStars[step].length > 0){
+								movieAutoStr += "+" + arrStars[step] + "* ";
+							}
+							else {
+								movieAutoStr += "";
+							}
+						}
+							//var movieAutoStr = " title like '%" + request.term + "%'";
+			var movieAutoUrl = "api/auto?whereclause=" + encodeURIComponent(movieAutoStr);
+
+		    //encode uri for special characters
+
+		    // Makes the HTTP GET request and registers on success callback function handleStarResult
+		    jQuery.ajax({
+		        dataType: "json", // Setting return data type
+		        method: "GET", // Setting request method
+		        url: movieAutoUrl, // Setting request url, which is mapped by StarsServlet in Stars.java
+		        success: function (resultData) { // Setting callback function to handle data returned successfully by the StarsServlet
+		            handleSearchResult(resultData);
+		        }, 
+		        error: function (resultData) {
+		            debugger;
+		            console.log("there was an error");
+		        },
+		        complete: function (resultData) {
+		            debugger;
+		            console.log("End Of Ajax call!");
+		            //A function to be called when the request finishes 
+		            // (after success and error callbacks are executed). 
+		        }
+		    });
+	}
+})
 
 
 jQuery("#clearButton").click(function (e) {

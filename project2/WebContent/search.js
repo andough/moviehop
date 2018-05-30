@@ -220,79 +220,11 @@ function handleMovieTitleSearch(value){
     
 }
 
-
 jQuery("#clearButton").click(function (e) {
     //do something
     $("#movieText").val("");
     $("#yearText").val("");
     $("#directorText").val("");
     $("#starText").val("");
-});
-$("#moviesearchauto").autocomplete(
-		{
-			// source: availableTags,
-			source : function(request, response) {
-				var step;
-				var movieAutoStr = "";
-				var arrStars = request.term.split(' '); 
-				for (step = 0; step < arrStars.length; step ++)
-				{
-					if (arrStars[step].length > 0){
-						movieAutoStr += "+" + arrStars[step] + "* ";
-					}
-					else {
-						movieAutoStr += "";
-					}
-				}
-				//var movieAutoStr = " title like '%" + request.term + "%'";
-				var movieAutoUrl = "api/auto?whereclause=" + encodeURIComponent(movieAutoStr);
-				// this is for beginning matches
-				var count = 0;
-//				var matcher = new RegExp("^"
-//						+ $.ui.autocomplete.escapeRegex(request.term), "i");
-
-				// this is for containing matches
-
-//				var matcher = new RegExp($.ui.autocomplete
-//						.escapeRegex(request.term), "i");
-				console.log("autocomplete initiated")
-				console.log("sending AJAX request to backend Java Servlet")
-				$.ajax({
-					url : movieAutoUrl,
-					type : "GET",
-					contentType : "application/json; charset=utf-8",
-					dataType : "json",
-					cache : false,
-					data : {
-						//term : encodeURIComponent(movieAutoStr) //request.term
-					},
-					success : function(data) {
-						console.log("lookup ajax successful")
-						console.log(data)
-						response($.map(data, function(item){
-							if (count <= 10) {
-								count += 1;
-								return {
-									label : item.title,
-									value : item.title,
-									movieid: item.movieid
-								}
-							}
-						}));
-						// response(data);
-					},
-					error : function(errorThrown) {
-						debugger;
-						console.log("lookup ajax error")
-						console.log(errorThrown)
-					}
-				})
-			},
-			minLength : 3,
-			select : function(event, ui) {
-				debugger;
-				var newUrl = "/project2/single-movie.html?id=" + ui.item.movieid;
-				window.location.href = newUrl;
-			}
 });
 			
