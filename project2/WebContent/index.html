@@ -5,7 +5,9 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.5.1/datatables.min.css" />
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">
+	    
     <!-- Optional theme -->
     <link rel="stylesheet" type="text/css" href="./navbar.css" />
 
@@ -53,6 +55,31 @@ h1 {
 <body>
     <h1 align = "center">Welcome to MovieHop</h1>
     <center><img align = "middle" src="http://simpleicon.com/wp-content/uploads/movie-3-256x256.png"></center>
+      <div class="container-fluid">
+      <div class="row">
+            <div class="mydiv-md">
+                <div class="input-group">
+                    <span class="input-group-addon">Search:</span>
+                    <input type="text" id="moviesearchauto" class="form-control" aria-describedby="basic-addon1">
+                </div>
+            </div>
+        </div>
+         <div class="row">
+            <div class="mydiv-md">
+                <div class="btn-group" role="group" aria-label="...">
+                    <button type="button" id="clearButton" class="btn btn-default">Clear</button>
+                    <button type="button" id="searchButton" class="btn btn-default">Search</button>
+                </div>
+            </div>
+        </div>
+         <div class="row">
+            <div class="col-lg-12">
+                <table id="patricktable" class="display" style="width:100%">
+                  </table>
+            </div>
+        </div>
+    </div>
+    <script src="index.js"></script>
 </body>
 
 </html>
