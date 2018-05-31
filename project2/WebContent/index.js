@@ -3,6 +3,47 @@
  * @param resultData jsonObject
  */
 var autocomplete_cache = {}; //global cache 
+$.widget("custom.catcomplete", $.ui.autocomplete, {
+
+    _create: function () {
+
+        this._super();
+
+        this.widget().menu("option", "items", "> :not(.ui-autocomplete-category)");
+
+    },
+
+    _renderMenu: function (ul, items) {
+
+        var that = this,
+
+          currentCategory = "";
+
+        $.each(items, function (index, item) {
+
+            var li;
+
+            if (item.category != currentCategory) {
+
+                ul.append("<li class='ui-autocomplete-category'>" + item.category + "</li>");
+
+                currentCategory = item.category;
+
+            }
+
+            li = that._renderItemData(ul, item);
+
+            if (item.category) {
+
+                li.attr("aria-label", item.category + " : " + item.label);
+
+            }
+
+        });
+
+    }
+
+});
 function addMovieTo(value){
 	var addMovieUrl = "./items?newItem=" + value;
 	var successMsg = "successfully added to cart";
@@ -26,7 +67,6 @@ function addMovieTo(value){
 }
 
 function handleSearchResult(resultData) {
-	debugger;
 	//alert(resultData.length);
 	
 	var resultData2 = [];
@@ -106,8 +146,8 @@ function handleSearchResult(resultData) {
 
 jQuery("#searchButton").click(function (e) {
     //call api to search by Tile
-    debugger;
-    var movieAutoStr = "";
+	console.log("Fulltext Search Intiated!");
+	var movieAutoStr = "";
     var movieStr = $.trim($("#moviesearchauto").val());
 	var arrStars = movieStr.split(' '); 
 			for (step = 0; step < arrStars.length; step ++)
@@ -130,15 +170,13 @@ jQuery("#searchButton").click(function (e) {
         method: "GET", // Setting request method
         url: movieAutoUrl, // Setting request url, which is mapped by StarsServlet in Stars.java
         success: function (resultData) { // Setting callback function to handle data returned successfully by the StarsServlet
-            handleSearchResult(resultData);
+        	console.log(resultData);
+        	handleSearchResult(resultData);
         }, 
         error: function (resultData) {
-            debugger;
             console.log("there was an error");
         },
         complete: function (resultData) {
-            debugger;
-            console.log("End Of Ajax call!");
             //A function to be called when the request finishes 
             // (after success and error callbacks are executed). 
         }
@@ -149,7 +187,8 @@ $('#moviesearchauto').keypress(function(event) {
 	// keyCode 13 is the enter key
 	if (event.keyCode == 13) {
 		// pass the value of the input box to the handler function
-		 	var movieAutoStr = "";
+		console.log("Fulltext Search Intiated!");
+			var movieAutoStr = "";
 		    var movieStr = $.trim($("#moviesearchauto").val());
 			var arrStars = movieStr.split(' '); 
 					for (step = 0; step < arrStars.length; step ++)
@@ -172,15 +211,13 @@ $('#moviesearchauto').keypress(function(event) {
 		        method: "GET", // Setting request method
 		        url: movieAutoUrl, // Setting request url, which is mapped by StarsServlet in Stars.java
 		        success: function (resultData) { // Setting callback function to handle data returned successfully by the StarsServlet
-		            handleSearchResult(resultData);
+		        	console.log(resultData);
+		        	handleSearchResult(resultData);
 		        }, 
 		        error: function (resultData) {
-		            debugger;
 		            console.log("there was an error");
 		        },
 		        complete: function (resultData) {
-		            debugger;
-		            console.log("End Of Ajax call!");
 		            //A function to be called when the request finishes 
 		            // (after success and error callbacks are executed). 
 		        }
@@ -193,7 +230,7 @@ jQuery("#clearButton").click(function (e) {
     //do something
     $("#moviesearchauto").val("");
 });
-$("#moviesearchauto").autocomplete(
+$("#moviesearchauto").catcomplete(
 		{
 			// source: availableTags,
 			source : function(request, response) {
@@ -270,7 +307,6 @@ $("#moviesearchauto").autocomplete(
 						// response(data);
 					},
 					error : function(errorThrown) {
-						debugger;
 						console.log("lookup ajax error")
 						console.log(errorThrown)
 					}
@@ -278,7 +314,6 @@ $("#moviesearchauto").autocomplete(
 			},
 			minLength : 3,
 			select : function(event, ui) {
-				debugger;
 				var newUrl = "/project2/single-movie.html?id=" + ui.item.movieid;
 				window.location.href = newUrl;
 			}
