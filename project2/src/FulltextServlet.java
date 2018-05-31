@@ -17,8 +17,8 @@ import java.sql.Statement;
 
 
 // Declaring a WebServlet called StarsServlet, which maps to url "/api/stars"
-@WebServlet(name = "AutocompleteServlet", urlPatterns = "/api/auto")
-public class AutocompleteServlet extends HttpServlet {
+@WebServlet(name = "FulltextServlet", urlPatterns = "/api/fulltext")
+public class FulltextServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     // Create a dataSource which registered in web.xml
@@ -42,7 +42,7 @@ public class AutocompleteServlet extends HttpServlet {
             // Get a connection from dataSource
             Connection dbcon = dataSource.getConnection();
 
-            String query = String.format("SELECT movies.title, movies.year, movies.director, movies.id AS 'movieid', GROUP_CONCAT( distinct stars.name) AS 'star', GROUP_CONCAT( distinct stars.id) AS 'starid', GROUP_CONCAT( distinct genres.name) AS 'genres', ratings.rating FROM movies  LEFT OUTER JOIN stars_in_movies ON movies.id = stars_in_movies.movieId  LEFT OUTER JOIN stars ON stars_in_movies.starId = stars.id  LEFT OUTER JOIN genres_in_movies ON movies.id = genres_in_movies.movieId  LEFT OUTER JOIN genres ON genres_in_movies.genreId = genres.id LEFT OUTER JOIN ratings ON movies.id = ratings.movieId WHERE match(title) against ('%s' in boolean mode) GROUP BY movies.title limit 10;" , whereclause );
+            String query = String.format("SELECT movies.title, movies.year, movies.director, movies.id AS 'movieid', GROUP_CONCAT( distinct stars.name) AS 'star', GROUP_CONCAT( distinct stars.id) AS 'starid', GROUP_CONCAT( distinct genres.name) AS 'genres', ratings.rating FROM movies  LEFT OUTER JOIN stars_in_movies ON movies.id = stars_in_movies.movieId  LEFT OUTER JOIN stars ON stars_in_movies.starId = stars.id  LEFT OUTER JOIN genres_in_movies ON movies.id = genres_in_movies.movieId  LEFT OUTER JOIN genres ON genres_in_movies.genreId = genres.id LEFT OUTER JOIN ratings ON movies.id = ratings.movieId WHERE match(title) against ('%s' in boolean mode) GROUP BY movies.title;" , whereclause );
             PreparedStatement statement = dbcon.prepareStatement(query);
             // Perform the query
             ResultSet rs = statement.executeQuery();
@@ -71,7 +71,6 @@ public class AutocompleteServlet extends HttpServlet {
                 jsonObject.addProperty("genres", genres);
                 jsonObject.addProperty("rating", rating);
                 jsonObject.addProperty("movieid", movieid);
-                jsonObject.addProperty("categroy", "Movie");
                 jsonArray.add(jsonObject);
             }
             

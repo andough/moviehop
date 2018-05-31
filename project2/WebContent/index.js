@@ -2,6 +2,7 @@
 * Handles the data returned by the API, read the jsonObject and populate data into html elements
  * @param resultData jsonObject
  */
+var autocomplete_cache = {}; //global cache 
 function addMovieTo(value){
 	var addMovieUrl = "./items?newItem=" + value;
 	var successMsg = "successfully added to cart";
@@ -119,7 +120,7 @@ jQuery("#searchButton").click(function (e) {
 					}
 				}
 					//var movieAutoStr = " title like '%" + request.term + "%'";
-	var movieAutoUrl = "api/auto?whereclause=" + encodeURIComponent(movieAutoStr);
+	var movieAutoUrl = "api/fulltext?whereclause=" + encodeURIComponent(movieAutoStr);
 
     //encode uri for special characters
 
@@ -148,7 +149,7 @@ $('#moviesearchauto').keypress(function(event) {
 	// keyCode 13 is the enter key
 	if (event.keyCode == 13) {
 		// pass the value of the input box to the handler function
-		 var movieAutoStr = "";
+		 	var movieAutoStr = "";
 		    var movieStr = $.trim($("#moviesearchauto").val());
 			var arrStars = movieStr.split(' '); 
 					for (step = 0; step < arrStars.length; step ++)
@@ -161,7 +162,7 @@ $('#moviesearchauto').keypress(function(event) {
 							}
 						}
 							//var movieAutoStr = " title like '%" + request.term + "%'";
-			var movieAutoUrl = "api/auto?whereclause=" + encodeURIComponent(movieAutoStr);
+			var movieAutoUrl = "api/fulltext?whereclause=" + encodeURIComponent(movieAutoStr);
 
 		    //encode uri for special characters
 
@@ -196,9 +197,29 @@ $("#moviesearchauto").autocomplete(
 		{
 			// source: availableTags,
 			source : function(request, response) {
+				console.log("autocomplete initiated")
+				var searchTerm = request.term.toUpperCase(), items = [];
 				var step;
 				var movieAutoStr = "";
 				var arrStars = request.term.split(' '); 
+				//found in cache
+                if (autocomplete_cache[searchTerm]) {
+                    $.each(autocomplete_cache[searchTerm], function (index, item) {
+                    	items.push({
+                        	label : item.title,
+							value : item.title,
+							movieid: item.movieid,
+							category: "Movie"
+                        });
+                    });
+                }
+                
+                if (items.length > 0) {  //found in cache
+                	console.log("Get from autocomplete_cache[" + request.term + "] with " + items.length + " records.");
+                    console.log(items)
+                    response(items)
+                    return;
+                }             
 				for (step = 0; step < arrStars.length; step ++)
 				{
 					if (arrStars[step].length > 0){
@@ -219,7 +240,6 @@ $("#moviesearchauto").autocomplete(
 
 //				var matcher = new RegExp($.ui.autocomplete
 //						.escapeRegex(request.term), "i");
-				console.log("autocomplete initiated")
 				console.log("sending AJAX request to backend Java Servlet")
 				$.ajax({
 					url : movieAutoUrl,
@@ -231,6 +251,9 @@ $("#moviesearchauto").autocomplete(
 						//term : encodeURIComponent(movieAutoStr) //request.term
 					},
 					success : function(data) {
+						//add to cache
+						autocomplete_cache[request.term.toUpperCase()] = data;
+						console.log("Add to autocomplete_cache[" + request.term + "] with " + data.length + " records.");
 						console.log("lookup ajax successful")
 						console.log(data)
 						response($.map(data, function(item){
@@ -239,7 +262,8 @@ $("#moviesearchauto").autocomplete(
 								return {
 									label : item.title,
 									value : item.title,
-									movieid: item.movieid
+									movieid: item.movieid,
+									category: "Movie"
 								}
 							}
 						}));
