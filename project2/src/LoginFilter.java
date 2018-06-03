@@ -48,8 +48,8 @@ public class LoginFilter implements Filter {
         requestURI = requestURI.toLowerCase();
 
         return requestURI.endsWith("login.html") || requestURI.endsWith("login.js")
-                || requestURI.endsWith("api/login") || requestURI.endsWith("EmployeeLogin.html") 
-                || requestURI.endsWith("api/EmployeeLogin") || requestURI.endsWith("EmployeeLogin.js") ;
+                || requestURI.endsWith("login") || requestURI.endsWith("EmployeeLogin.html") 
+                || requestURI.endsWith("EmployeeLogin") || requestURI.endsWith("EmployeeLogin.js") ;
     }
     private boolean isUrlAllowedWithLogin(String requestURI) {
         requestURI = requestURI.toLowerCase();
