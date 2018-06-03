@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#D1C4E9"
+    tools:context="edu.uci.ics.fabflixmobile.BlueActivity">
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/whereclause"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="search for movie"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:onClick="doSearch"
+            android:text="Search" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dip"
+            android:layout_marginBottom="10dip"
+            android:background="#FFFFFF" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/relativeLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:layout_below="@+id/layout"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="25"
+            android:orientation="vertical"
+            android:text="title"></TextView>
+
+        <TextView
+            android:id="@+id/year"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="15"
+            android:orientation="vertical"
+            android:text="year"></TextView>
+
+        <TextView
+            android:id="@+id/director"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:orientation="vertical"
+            android:text="director"></TextView>
+
+        <TextView
+            android:id="@+id/genre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:orientation="vertical"
+            android:text="genre"></TextView>
+
+        <TextView
+            android:id="@+id/star"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:orientation="vertical"
+            android:text="star"></TextView>
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lView"
+        android:layout_width="match_parent"
+        android:layout_height="316dp"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_centerHorizontal="true"
+        android:scrollbars="vertical" />
+
+    <Button
+        android:id="@+id/prev"
+        android:layout_width="wrap_content"
+        android:layout_height="37dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:onClick="prevButton"
+        android:text="Prev" />
+
+    <Button
+        android:id="@+id/nxt"
+        android:layout_width="wrap_content"
+        android:layout_height="37dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:onClick="nextButton"
+        android:text="Next" />
+
+    <TextView
+        android:id="@+id/pageId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/prev"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

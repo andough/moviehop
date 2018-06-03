@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">MovieHopMobile</string>
+    <string name="action_settings">Settings</string>
+
+    <color name="red">#CC0000</color>
+    <color name="blue">#0080FF</color>
+    <color name="green">#80FF00</color>
+
+    <string name="title_activity_blue"> Search Page </string>
+    <string name="title_activity_green"> Single Movie Page </string>
+    <string name="home_page"> Welcome to MovieHop </string>
+</resources>
