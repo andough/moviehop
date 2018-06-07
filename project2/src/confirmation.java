@@ -65,6 +65,7 @@ public class confirmation extends HttpServlet{
 						String query = String.format(
 								"SELECT movies.id, movies.title from movies where movies.id = '%s';", previousItem);
 						PreparedStatement statement = dbCon.prepareStatement(query);
+						
 						ResultSet rs = statement.executeQuery();
 
 						if (rs.next()) {

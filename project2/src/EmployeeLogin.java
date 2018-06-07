@@ -1,6 +1,8 @@
 import com.google.gson.JsonObject;
 
 import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,8 +23,8 @@ public class EmployeeLogin extends HttpServlet {
     private static final long serialVersionUID = 1L;
     
  // Create a dataSource which registered in web.xml
-    @Resource(name = "jdbc/moviedb")
-    private DataSource dataSource;
+//    @Resource(name = "jdbc/moviedb")
+//    private DataSource dataSource;
     
 
     /**
@@ -38,11 +40,33 @@ public class EmployeeLogin extends HttpServlet {
         try 
        {
             // Create a new connection to database
-            Connection dbCon = dataSource.getConnection();
+            Context initCtx = new InitialContext();
+
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            if (envCtx == null)
+                out.println("envCtx is NULL");
+
+            // Look up our data source
+            DataSource ds = (DataSource) envCtx.lookup("jdbc/TestDB");
+
+            // the following commented lines are direct connections without pooling
+            //Class.forName("org.gjt.mm.mysql.Driver");
+            //Class.forName("com.mysql.jdbc.Driver").newInstance();
+            //Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+
+            if (ds == null)
+                out.println("ds is null.");
+
+            Connection dbcon = ds.getConnection();
+            if (dbcon == null)
+                out.println("dbcon is null.");
+
 
             // Declare a new statement
-            String query = String.format("SELECT * from employees where email= '%s'", username);
-            PreparedStatement statement = dbCon.prepareStatement(query);
+            String query = "SELECT * from employees where email= ?";
+            PreparedStatement statement = dbcon.prepareStatement(query);
+            
+            statement.setString(1, username);
             ResultSet rs = statement.executeQuery();
             boolean success = false;
             if (rs.next()) {
@@ -66,7 +90,7 @@ public class EmployeeLogin extends HttpServlet {
              }}
             rs.close();
             statement.close();
-            dbCon.close();
+            dbcon.close();
 
         	} 
         	catch (Exception ex) 

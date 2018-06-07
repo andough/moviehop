@@ -20,6 +20,7 @@ import java.time.format.DateTimeFormatter;
 
 @WebServlet(name = "placedOrder", urlPatterns = "/placedOrder")
 public class placedOrder extends HttpServlet{
+	private static final long serialVersionUID = 1L;
 	@Resource(name = "jdbc/moviedb")
 	private DataSource dataSource;
 

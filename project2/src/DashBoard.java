@@ -1,4 +1,6 @@
 import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,14 +23,15 @@ import java.util.*;
 @WebServlet(name = "DashBoard", urlPatterns = "/api/DashBoard")
 public class DashBoard extends HttpServlet {
     private static final long serialVersionUID = 1L;
-	@Resource(name = "jdbc/moviedb")
-	private DataSource dataSource;
+//	@Resource(name = "jdbc/moviedb")
+//	private DataSource dataSource;
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// HttpSession session = request.getSession(); // Get a instance of current
 		// session on the request
 		// Map<String,Integer> previousItems = (Map<String,Integer>)
 		// session.getAttribute("previousItems");
+		PrintWriter out = response.getWriter();
 		String title = request.getParameter("title");
 		String year = request.getParameter("year");
 		String director = request.getParameter("director");
@@ -43,10 +46,29 @@ public class DashBoard extends HttpServlet {
 		try {
 
 			// Create a new connection to database
-			Connection dbCon = dataSource.getConnection();
+			Context initCtx = new InitialContext();
+
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            if (envCtx == null)
+                out.println("envCtx is NULL");
+
+            // Look up our data source
+            DataSource ds = (DataSource) envCtx.lookup("jdbc/TestDB");
+
+            // the following commented lines are direct connections without pooling
+            //Class.forName("org.gjt.mm.mysql.Driver");
+            //Class.forName("com.mysql.jdbc.Driver").newInstance();
+            //Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+
+            if (ds == null)
+                out.println("ds is null.");
+
+            Connection dbcon = ds.getConnection();
+            if (dbcon == null)
+                out.println("dbcon is null.");
 
 			// Declare a new statement
-			CallableStatement statement = dbCon.prepareCall("{Call add_movie(?,?,?,?,?,?)}");
+			CallableStatement statement = dbcon.prepareCall("{Call add_movie(?,?,?,?,?,?)}");
 			statement.setString(1, title);
 			statement.setString(2, year);
 			statement.setString(3, director);
@@ -66,7 +88,7 @@ public class DashBoard extends HttpServlet {
                 responseJsonObject.addProperty("message2", "success");
                 String q = String.format(
     					"SELECT  id from movies where title = '%s';", title);
-    			PreparedStatement bc = dbCon.prepareStatement(q);
+    			PreparedStatement bc = dbcon.prepareStatement(q);
     			ResultSet rs = bc.executeQuery();
     			if (rs.next()) {
     				movieid = rs.getString("id");
@@ -82,7 +104,7 @@ public class DashBoard extends HttpServlet {
 				response.getWriter().write(responseJsonObject.toString());
 			}
 			statement.close();
-			dbCon.close();
+			dbcon.close();
 
 		} catch (Exception ex) {
 

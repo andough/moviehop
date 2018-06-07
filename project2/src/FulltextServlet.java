@@ -2,6 +2,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,8 +24,8 @@ public class FulltextServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     // Create a dataSource which registered in web.xml
-    @Resource(name = "jdbc/moviedb")
-    private DataSource dataSource;
+//    @Resource(name = "jdbc/moviedb")
+//    private DataSource dataSource;
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -40,10 +42,31 @@ public class FulltextServlet extends HttpServlet {
 
         try {
             // Get a connection from dataSource
-            Connection dbcon = dataSource.getConnection();
 
-            String query = String.format("SELECT movies.title, movies.year, movies.director, movies.id AS 'movieid', GROUP_CONCAT( distinct stars.name) AS 'star', GROUP_CONCAT( distinct stars.id) AS 'starid', GROUP_CONCAT( distinct genres.name) AS 'genres', ratings.rating FROM movies  LEFT OUTER JOIN stars_in_movies ON movies.id = stars_in_movies.movieId  LEFT OUTER JOIN stars ON stars_in_movies.starId = stars.id  LEFT OUTER JOIN genres_in_movies ON movies.id = genres_in_movies.movieId  LEFT OUTER JOIN genres ON genres_in_movies.genreId = genres.id LEFT OUTER JOIN ratings ON movies.id = ratings.movieId WHERE match(title) against ('%s' in boolean mode) GROUP BY movies.title;" , whereclause );
+            Context initCtx = new InitialContext();
+
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            if (envCtx == null)
+                out.println("envCtx is NULL");
+
+            // Look up our data source
+            DataSource ds = (DataSource) envCtx.lookup("jdbc/TestDB");
+
+            // the following commented lines are direct connections without pooling
+            //Class.forName("org.gjt.mm.mysql.Driver");
+            //Class.forName("com.mysql.jdbc.Driver").newInstance();
+            //Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+
+            if (ds == null)
+                out.println("ds is null.");
+
+            Connection dbcon = ds.getConnection();
+            if (dbcon == null)
+                out.println("dbcon is null.");
+
+            String query = "SELECT movies.title, movies.year, movies.director, movies.id AS 'movieid', GROUP_CONCAT( distinct stars.name) AS 'star', GROUP_CONCAT( distinct stars.id) AS 'starid', GROUP_CONCAT( distinct genres.name) AS 'genres', ratings.rating FROM movies  LEFT OUTER JOIN stars_in_movies ON movies.id = stars_in_movies.movieId  LEFT OUTER JOIN stars ON stars_in_movies.starId = stars.id  LEFT OUTER JOIN genres_in_movies ON movies.id = genres_in_movies.movieId  LEFT OUTER JOIN genres ON genres_in_movies.genreId = genres.id LEFT OUTER JOIN ratings ON movies.id = ratings.movieId WHERE match(title) against (? in boolean mode) GROUP BY movies.title;";
             PreparedStatement statement = dbcon.prepareStatement(query);
+            statement.setString(1, whereclause);
             // Perform the query
             ResultSet rs = statement.executeQuery();
 
@@ -108,10 +131,30 @@ public class FulltextServlet extends HttpServlet {
 
         try {
             // Get a connection from dataSource
-            Connection dbcon = dataSource.getConnection();
+        	Context initCtx = new InitialContext();
 
-            String query = String.format("SELECT movies.title, movies.year, movies.director, movies.id AS 'movieid', GROUP_CONCAT( distinct stars.name) AS 'star', GROUP_CONCAT( distinct stars.id) AS 'starid', GROUP_CONCAT( distinct genres.name) AS 'genres', ratings.rating FROM movies  LEFT OUTER JOIN stars_in_movies ON movies.id = stars_in_movies.movieId  LEFT OUTER JOIN stars ON stars_in_movies.starId = stars.id  LEFT OUTER JOIN genres_in_movies ON movies.id = genres_in_movies.movieId  LEFT OUTER JOIN genres ON genres_in_movies.genreId = genres.id LEFT OUTER JOIN ratings ON movies.id = ratings.movieId WHERE match(title) against ('%s' in boolean mode) GROUP BY movies.title;" , whereclause );
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            if (envCtx == null)
+                out.println("envCtx is NULL");
+
+            // Look up our data source
+            DataSource ds = (DataSource) envCtx.lookup("jdbc/TestDB");
+
+            // the following commented lines are direct connections without pooling
+            //Class.forName("org.gjt.mm.mysql.Driver");
+            //Class.forName("com.mysql.jdbc.Driver").newInstance();
+            //Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+
+            if (ds == null)
+                out.println("ds is null.");
+
+            Connection dbcon = ds.getConnection();
+            if (dbcon == null)
+                out.println("dbcon is null.");
+
+            String query = "SELECT movies.title, movies.year, movies.director, movies.id AS 'movieid', GROUP_CONCAT( distinct stars.name) AS 'star', GROUP_CONCAT( distinct stars.id) AS 'starid', GROUP_CONCAT( distinct genres.name) AS 'genres', ratings.rating FROM movies  LEFT OUTER JOIN stars_in_movies ON movies.id = stars_in_movies.movieId  LEFT OUTER JOIN stars ON stars_in_movies.starId = stars.id  LEFT OUTER JOIN genres_in_movies ON movies.id = genres_in_movies.movieId  LEFT OUTER JOIN genres ON genres_in_movies.genreId = genres.id LEFT OUTER JOIN ratings ON movies.id = ratings.movieId WHERE match(title) against (? in boolean mode) GROUP BY movies.title;";
             PreparedStatement statement = dbcon.prepareStatement(query);
+            statement.setString(1, whereclause);
             // Perform the query
             ResultSet rs = statement.executeQuery();
 

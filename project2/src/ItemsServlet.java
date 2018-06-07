@@ -19,7 +19,7 @@ import java.util.*;
 @WebServlet(name = "ItemServlet", urlPatterns = "/items")
 
 public class ItemsServlet extends HttpServlet {
-	private static final long serialVersionUID = 2L;
+	private static final long serialVersionUID = 1L;
 	@Resource(name = "jdbc/moviedb")
 	private DataSource dataSource;
 	
@@ -66,8 +66,9 @@ public class ItemsServlet extends HttpServlet {
         synchronized (previousItems) {       
         	 Integer i = 1;
             if (newItem != null) {
-            	String query = String.format("SELECT movies.id, movies.title from movies where movies.id = '%s';", newItem);
+            	String query = "SELECT movies.id, movies.title from movies where movies.id = ?;";
             	PreparedStatement statement = dbCon.prepareStatement(query);
+            	statement.setString(1, newItem);
                 ResultSet rs = statement.executeQuery();	
             	if(rs.next())
             	{
@@ -126,9 +127,9 @@ public class ItemsServlet extends HttpServlet {
             		Map.Entry pair = (Map.Entry)it.next();
             		String previousItem = (String)pair.getKey();
             		Integer count = (Integer)pair.getValue();
-            		
-            		String query = String.format("SELECT movies.id, movies.title from movies where movies.id = '%s';", previousItem);
+            		String query = "SELECT movies.id, movies.title from movies where movies.id = ?;";
             		PreparedStatement statement = dbCon.prepareStatement(query);
+            		statement.setString(1, previousItem);
                     ResultSet rs = statement.executeQuery();	
                     if (rs.next())
                     {

@@ -1,4 +1,6 @@
 import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,8 +20,9 @@ import java.util.*;
 
 @WebServlet(name = "CheckOutServlet", urlPatterns = "/api/CheckOut")
 public class CheckOutServlet extends HttpServlet {
-	@Resource(name = "jdbc/moviedb")
-	private DataSource dataSource;
+	private static final long serialVersionUID = 1L;
+//	@Resource(name = "jdbc/moviedb")
+//	private DataSource dataSource;
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// HttpSession session = request.getSession(); // Get a instance of current
@@ -36,16 +39,33 @@ public class CheckOutServlet extends HttpServlet {
 
 		try {
 
-			// Create a new connection to database
-			Connection dbCon = dataSource.getConnection();
+			Context initCtx = new InitialContext();
 
-			// Declare a new statement
-			String query = String.format(
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            if (envCtx == null)
+                out.println("envCtx is NULL");
+
+            // Look up our data source
+            DataSource ds = (DataSource) envCtx.lookup("jdbc/TestDB");
+
+            if (ds == null)
+                out.println("ds is null.");
+
+            Connection dbcon = ds.getConnection();
+            
+            if (dbcon == null)
+                out.println("dbcon is null.");
+			String query = 
 					"SELECT creditcards.id, creditcards.expiration, creditcards.firstName, creditcards.lastName"
-					+ " from creditcards where creditcards.id = '%s' and creditcards.expiration = '%s' and creditcards.firstName = '%s'"
-					+ "and creditcards.lastName = '%s';", id,expiration,first,last);
+					+ " from creditcards where creditcards.id = ? and creditcards.expiration = ? and creditcards.firstName = ?"
+					+ "and creditcards.lastName = ?;";
 			
-			PreparedStatement statement = dbCon.prepareStatement(query);
+			PreparedStatement statement = dbcon.prepareStatement(query);
+			statement.setString(1, id);
+			statement.setString(2, expiration);
+			statement.setString(3, first);
+			statement.setString(4, last);
+			
 			ResultSet rs = statement.executeQuery();
 			if (rs.next()) {
 				// Login success:
@@ -71,7 +91,7 @@ public class CheckOutServlet extends HttpServlet {
 			}
 			rs.close();
 			statement.close();
-			dbCon.close();
+			dbcon.close();
 
 		} catch (Exception ex) {
 
