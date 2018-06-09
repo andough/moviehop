@@ -23,8 +23,8 @@ import java.util.*;
 @WebServlet(name = "DashBoard", urlPatterns = "/api/DashBoard")
 public class DashBoard extends HttpServlet {
     private static final long serialVersionUID = 1L;
-//	@Resource(name = "jdbc/moviedb")
-//	private DataSource dataSource;
+	@Resource(name = "jdbc/master")
+	private DataSource dataSource;
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// HttpSession session = request.getSession(); // Get a instance of current
@@ -45,28 +45,7 @@ public class DashBoard extends HttpServlet {
 
 		try {
 
-			// Create a new connection to database
-			Context initCtx = new InitialContext();
-
-            Context envCtx = (Context) initCtx.lookup("java:comp/env");
-            if (envCtx == null)
-                out.println("envCtx is NULL");
-
-            // Look up our data source
-            DataSource ds = (DataSource) envCtx.lookup("jdbc/TestDB");
-
-            // the following commented lines are direct connections without pooling
-            //Class.forName("org.gjt.mm.mysql.Driver");
-            //Class.forName("com.mysql.jdbc.Driver").newInstance();
-            //Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-
-            if (ds == null)
-                out.println("ds is null.");
-
-            Connection dbcon = ds.getConnection();
-            if (dbcon == null)
-                out.println("dbcon is null.");
-
+			Connection dbcon = dataSource.getConnection();
 			// Declare a new statement
 			CallableStatement statement = dbcon.prepareCall("{Call add_movie(?,?,?,?,?,?)}");
 			statement.setString(1, title);

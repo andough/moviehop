@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -33,7 +37,8 @@ public class FulltextServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         response.setContentType("application/json"); // Response mime type
-
+        long startTimeTS = System.nanoTime();	//hi patrick
+    	long elapsedTimeTJ = 0;
 		// Retrieve parameter id from url request.
 		String whereclause = request.getParameter("whereclause");
 		
@@ -42,7 +47,7 @@ public class FulltextServlet extends HttpServlet {
 
         try {
             // Get a connection from dataSource
-
+        	long startTimeTJ = System.nanoTime();	//hi patrick
             Context initCtx = new InitialContext();
 
             Context envCtx = (Context) initCtx.lookup("java:comp/env");
@@ -71,6 +76,10 @@ public class FulltextServlet extends HttpServlet {
             ResultSet rs = statement.executeQuery();
 
             JsonArray jsonArray = new JsonArray();
+            
+            long endTimeTJ = System.nanoTime();	//hi patrick
+            elapsedTimeTJ = endTimeTJ - startTimeTJ;
+            System.out.println("elapsedTimeTJ: " + elapsedTimeTJ);
 
             // Iterate through each row of rs
             while (rs.next()) {
@@ -117,6 +126,10 @@ public class FulltextServlet extends HttpServlet {
 
         }
         out.close();
+        long endTimeTS = System.nanoTime();	//hi patrick
+        long elapsedTimeTS = endTimeTS - startTimeTS;
+        System.out.println("elapsedTimeTS: " + elapsedTimeTS);
+        printLog(whereclause, elapsedTimeTJ, elapsedTimeTS);
     }
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -206,5 +219,37 @@ public class FulltextServlet extends HttpServlet {
         }
         out.close();
 
+    }
+    // hi patrick
+    private void printLog(String whereclause, Long TJ, Long TS)
+    {
+    	BufferedWriter bw = null;
+    	FileWriter fw = null;
+    	
+    	try {
+    		//File file = new File("C:/Users/xawgu/Desktop/timeLog.txt");
+    		File file = new File("/home/ubuntu/timeLog.txt"); // hi patrick
+    		if (!file.exists())
+    			file.createNewFile();
+    		
+    		fw = new FileWriter(file.getAbsoluteFile(),true);
+    		bw = new BufferedWriter(fw);
+    		
+    		//bw.write("query: " + whereclause);
+    		//bw.newLine();
+    		bw.write("elapsedTimeTJ " + TJ);
+    		bw.newLine();
+    		bw.write("elapsedTimeTS " + TS);
+    		bw.newLine();
+    		
+    		if (bw != null)
+    			bw.close();
+    		if (fw != null)
+    			fw.close();
+    	}
+    	catch (Exception e)
+    	{
+    		System.out.println("caught exception at printLog: " + e.toString());
+    	}
     }
 }

@@ -9,9 +9,16 @@
               username="root"
               password="password"
               url="jdbc:mysql://localhost:3306/moviedb"/>
+    <Resource name="jdbc/master"
+              auth="Container"
+              driverClassName="com.mysql.jdbc.Driver"
+              type="javax.sql.DataSource"
+              username="root"
+              password="password"
+              url="jdbc:mysql://34.209.244.33:3306/moviedb"/>
               
    <Resource name="jdbc/TestDB" auth="Container" type="javax.sql.DataSource"
              maxTotal="100" maxIdle="30" maxWaitMillis="10000" username="root"
              password="password" driverClassName="com.mysql.jdbc.Driver"
-             url="jdbc:mysql://localhost:3306/moviedb?autoReconnect=true&amp;useSSL=false"/>
+             url="jdbc:mysql://localhost:3306/moviedb?autoReconnect=true&amp;useSSL=false&amp;cachePrepStmts=true"/>
 </Context>

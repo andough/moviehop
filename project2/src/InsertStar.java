@@ -21,7 +21,7 @@ import java.util.*;
 @WebServlet(name = "InsertStar", urlPatterns = "/api/InsertStar")
 public class InsertStar extends HttpServlet {
     private static final long serialVersionUID = 1L;
-	@Resource(name = "jdbc/moviedb")
+	@Resource(name = "jdbc/master")
 	private DataSource dataSource;
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
