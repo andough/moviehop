@@ -1,0 +1,114 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    background-color: linen;
+}
+
+td {
+    border-top-style: solid;
+}
+</style>
+</head>
+<body>
+
+<table style="width:100%">
+  <tr style="font-weight:bold; background-color: orange">
+    <td width="300px">Single-instance version cases</td>
+    <td>Graph Results Screenshot</td>
+    <td>Average Query Time(ms)</td>
+    <td>Average Search Servlet Time(ms)</td>
+    <td>Average JDBC Time(ms)</td>
+    <td>Analysis</td>
+  </tr>
+  <tr>
+    <td>Case 1: HTTP/1 thread</td>
+    <td><img src="graph_results_case1.png" alt="Graph Results Screenshot Case 1" style="width:304px;height:228px;"></td>
+    <td>51 ms</td>
+    <td>65 ms</td>
+    <td>160</td>
+    <td>faster times than 10 threads, but total runtime is slower since only 1 thread to send all requests</td>
+  </tr>
+  <tr>
+    <td>Case 2: HTTP/10 threads</td>
+    <td><img src="graph_results_case2.png" alt="Graph Results Screenshot Case 2" style="width:304px;height:228px;"></td>
+    <td>314 ms</td>
+    <td>486 ms</td>
+    <td>667</td>
+    <td>slower than 1 thread, higher traffic degrades efficiency </td>
+  </tr>
+  <tr>
+    <td>Case 3: HTTPS/10 threads</td>
+    <td><img src="graph_results_case3.png" alt="Graph Results Screenshot Case 3" style="width:304px;height:228px;"></td>
+    <td>384 ms</td>
+    <td>474 ms</td>
+    <td>627</td>
+    <td>similar to http, queries are slightly slower but servlet is slightly faster</td>
+  </tr>
+  <tr>
+    <td>Case 4: HTTP/10 threads/No prepared statements</td>
+    <td><img src="graph_results_case4.png" alt="Graph Results Screenshot Case 4" style="width:304px;height:228px;"></td>
+    <td>283 ms</td>
+    <td>446 ms</td>
+    <td>600</td>
+    <td>slower than test with prepared statements, having prepared statements makes slight performance improvements</td>
+  </tr>
+  <tr>
+    <td>Case 5: HTTP/10 threads/No connection pooling</td>
+    <td><img src="graph_results_case5.png" alt="Graph Results Screenshot Case 5" style="width:304px;height:228px;"></td>
+    <td>198 ms</td>
+    <td>688 ms</td>
+    <td>1050</td>
+    <td>Average jdbc time is much slower because no connection pooling, which means each jdbc connection takes longer</td>
+  </tr>
+
+</table> 
+
+
+<table style="width:100%">
+  <tr style="font-weight:bold; background-color: orange">
+    <td width="300px">Scaled version cases</td>
+    <td>Graph Results Screenshot</td>
+    <td>Average Query Time(ms)</td>
+    <td>Average Search Servlet Time(ms)</td>
+    <td>Average JDBC Time(ms)</td>
+    <td>Analysis</td>
+  </tr>
+  <tr>
+    <td>Case 1: HTTP/1 thread</td>
+    <td><img src="graph_results_case6.png" alt="Graph Results Screenshot Case 6" style="width:304px;height:228px;"></td>
+    <td>49 ms</td>
+    <td>54 ms</td>
+    <td>207</td>
+    <td>test takes significantly longer to run, but each search time and query time is fast</td>
+  </tr>
+  <tr>
+    <td>Case 2: HTTP/10 threads</td>
+    <td><img src="graph_results_case7.png" alt="Graph Results Screenshot Case 7" style="width:304px;height:228px;"></td>
+    <td>110 ms</td>
+    <td>120 ms</td>
+    <td>481</td>
+    <td>load balancer is faster than without by reducing the amount of traffic to a server. High-traffic degrades efficiency</td>
+  </tr>
+  <tr>
+    <td>Case 3: HTTP/10 threads/No prepared statements</td>
+    <td><img src="graph_results_case8.png" alt="Graph Results Screenshot Case 8" style="width:304px;height:228px;"></td>
+    <td>114 ms</td>
+    <td>126 ms</td>
+    <td>583</td>
+    <td>Similar to single instance, servlet without prepared statements is slightly slower</td>
+  </tr>
+  <tr>
+    <td>Case 4: HTTP/10 threads/No connection pooling</td>
+    <td><img src="graph_results_case9.png" alt="Graph Results Screenshot Case 9" style="width:304px;height:228px;"></td>
+    <td>69 ms</td>
+    <td>86 ms</td>
+    <td>1253</td>
+    <td>Average jdbc time is much slower because no connection pooling, which means each jdbc connection takes longer</td>
+  </tr>
+
+</table> 
+
+</body>
+</html>
