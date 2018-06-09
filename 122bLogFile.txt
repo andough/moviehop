@@ -1,0 +1,113 @@
+single instance with http 1 thread
+	query count: 2642.0
+	timeTS: 172.455717703
+	average TS: 0.06527468497464042
+	timeTJ: 134.865502531
+	average TJ: 0.051046745848221046
+
+single instance http 10 thread
+	query count: 2642.0
+	timeTS: 1284.13844857
+	average TS: 0.48604786092732777
+	timeTJ: 829.602860459
+	average TJ: 0.3140056247006056
+
+single instance https
+	query count: 2642.0
+	timeTS: 1253.5467861910001
+	average TS: 0.47446888197993947
+	timeTJ: 1016.826577333
+	average TJ: 0.3848700141305829
+
+
+single instance with http no prepared statement
+	query count: 2642.0
+	timeTS: 1178.9655956870001
+	average TS: 0.4462398166869796
+	timeTJ: 749.396205914
+	average TJ: 0.28364731488039363
+
+
+single instance with http and no connection pooling
+	query count: 2642.0
+	timeTS: 1836.9518502600001
+	average TS: 0.6887708474915636
+	timeTJ: 529.6828820950001
+	average TJ: 0.19860625500374957
+
+
+load balancing with http and no connection pooling
+	master
+	query count: 1324.0
+	timeTS: 121.789641032
+	average TS: 0.09198613370996979
+	timeTJ: 97.684473772
+	average TJ: 0.07377981402719033
+
+	slave
+	query count: 1318.0
+	timeTS: 106.111851211
+	average TS: 0.08050975053945372
+	timeTJ: 84.76815125200001
+	average TJ: 0.06905852574
+
+	averageTS: 0.08626097359
+	averageTJ: 0.06904777926397453
+
+load balancing with http no prepared statement
+	master
+	query count: 1320.0
+	timeTS: 170.810401156
+	average TS: 0.12940181905757578
+	timeTJ: 155.20790694200002
+	average TJ: 0.11758174768333335
+
+	slave
+	query count: 1322.0
+	timeTS: 163.46097676000002
+	average TS: 0.1237403306283119
+	timeTJ: 146.506701881
+	average TJ: 0.11090590604163512
+
+	averageTS: 0.12656893196
+	averageTJ: 0.11424130004
+	
+load balancing with http and connection pooling
+	master
+	query count: 1321.0
+	timeTS: 155.489424144
+	average TS: 0.11770584719454959
+	timeTJ: 141.450863614
+	average TJ: 0.10707862499167299
+
+	slave
+	query count: 1321.0
+	timeTS: 163.37403305400002
+	average TS: 0.12367451404542015
+	timeTJ: 151.541249179
+	average TJ: 0.11471706977971234
+	
+	averageTS: 0.12069018061998487
+	averageTJ: 0.110897847385692665
+	
+load balancing with http and 1 thread
+	master
+	query count: 1321.0
+	timeTS: 70.30222057600001
+	average TS: 0.05321894063285391
+	timeTJ: 63.985701941
+	average TJ: 0.04843732168130205
+
+	slave
+	query count: 1321.0
+	timeTS: 73.50027755400001
+	average TS: 0.05563987702800909
+	timeTJ: 67.77481962200001
+	average TJ: 0.05130569237093112
+	
+	average TS: 0.0544294088304315
+	average TJ: 0.049871507026116585
+	
+
+
+	
